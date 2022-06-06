@@ -1,0 +1,17 @@
+.chart{
+    position: relative;
+    top: 100px;
+    left: 405px;
+    width: 720px;
+    height: 400px;
+}
+
+.clock{
+    position: absolute;
+    top: 70px;
+    right: 220px;
+    width:400px;
+    color:black;
+    font-size: 30px;
+    text-align:center;
+}
