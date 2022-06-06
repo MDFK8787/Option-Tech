@@ -1,0 +1,97 @@
+.detail-list{
+    position: absolute;
+    top: 700px;
+    left: 396px;
+    width: 760px;
+    height: 235px;
+    border-collapse: collapse;
+    /*border: 1px solid black;*/
+}
+.detail-top thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+
+.detail-top{
+    width: 100%;
+    text-align: center;
+}
+.detail-top thead th{
+    font-size: 20px;
+    font-weight: lighter;
+}
+
+.row-15{
+    width: 15%;
+}
+.row-10{
+    width: 10%;
+}
+
+/*body*/
+.detail-list tbody{
+    height: 200px;
+    display: block;
+    overflow: overlay;
+    border-collapse: collapse;
+}
+.detail-list tbody tr{
+    height: 25px;
+    margin: 1% 0;
+}
+
+.row-item{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.row-ls{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+}
+.row-cp{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+}
+.row-st{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+}
+.row-qt{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+}
+.row-am{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.row-del{
+    width: 10%;
+}
+
+.text{
+    width: 80px;
+    color: black;
+    text-align: center;
+    border: none;
+}
+
+.row-del button{
+    height: 25px;
+    border-radius: 50%;
+    color: white;
+    border-color: red;
+    background-color: red;
+}
+
+
