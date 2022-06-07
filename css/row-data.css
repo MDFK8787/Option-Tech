@@ -1,0 +1,110 @@
+.detail-list{
+    position: absolute;
+    bottom: 0;
+    left: 20.7vw;
+    width: 39.5vw;
+    height: 25vh;
+    border-collapse: collapse;
+}
+.detail-top thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.detail-list button[btn='下單']{
+    position: absolute;
+    bottom: 2vh;
+    left: 15vw;
+    width: 10vw;
+    height: 4vh;
+    z-index: 10;
+    font-size: 1.2vw;
+    font-weight: lighter;
+    color: white;
+    background-color: rgb(179, 0, 0);
+    border-radius: 8px;
+    border: none;
+}
+
+/*head*/
+.detail-top thead th{
+    font-size: 1.1vw;
+    font-weight: lighter;
+}
+
+.row-15{
+    width: 15%;
+}
+.row-10{
+    width: 10%;
+}
+
+/*body*/
+.detail-list tbody{
+    height: 21.5vh;
+    display: block;
+    overflow: overlay;
+    text-align: center;
+    font-size: 0.8vw;
+    border-collapse: collapse;
+}
+.detail-list tbody tr{
+    height: 3vh;
+    margin: 0.8% 0;
+}
+
+.row-item{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.row-ls{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+}
+.row-cp{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+}
+.row-st{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+}
+.row-qt{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+}
+.row-am{
+    width: 15%;
+    color: white;
+    background-color: #A6A6A6;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.row-del{
+    width: 10%;
+}
+
+.text{
+    width: 4vw;
+    color: black;
+    text-align: center;
+    border: none;
+}
+
+.row-del button{
+    height: 2.7vh;
+    border-radius: 50%;
+    color: white;
+    border-color: red;
+    background-color: red;
+}
+
+
+
