@@ -1,0 +1,29 @@
+/*t自帳滾輪上面填空的div*/
+.line-design div{
+    position: absolute;
+}
+
+.line-design div[ldsign='rightside-menu-line']{
+    bottom: 0;
+    right: 0;
+    width: 3.45vw;
+    height: 87.8vh;
+    z-index: 10;
+    border-left: 0.2vw solid rgb(238, 238, 238);
+    border-top: 0.4vh solid rgb(238, 238, 238);
+}
+
+.line-design [ldsign='eight-detail-center-line']{
+    bottom: 0;
+    right: 39.4vw;
+    width: 39.8vw;
+    height: 33.4vh;
+    border-top: 0.4vh solid rgb(238, 238, 238);
+}
+.line-design [ldsign='pl-sep-line']{
+    bottom: 33.8vh;
+    left: 40vw;
+    width: 1vw;
+    height: 9vh;
+    border-left: 0.2vw solid rgb(238, 238, 238);}
+
