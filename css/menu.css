@@ -1,0 +1,189 @@
+/*菜單*/
+.menu-div{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 5.8vh;
+    z-index: 10;
+    border-bottom: 0.7vh solid rgb(238, 238, 238);
+}
+.menu-div button{
+    position: absolute;
+    top: 0.1vh;
+    height: 5.5vh;
+    font-size: 1.1vw;
+    font-weight: bold;
+    border: none;
+    background-color: white;
+}
+.menu-div button[btn='交易']{
+    left: 1vw;
+    width: 5vw;
+}
+.menu-div button[btn='回測']{
+    left: 7vw;
+    width: 5vw;
+}
+.menu-div button[btn='幫助']{
+    left: 13vw;
+    width: 7vw;
+}
+.menu-div button[btn='語言']{
+    right: 7.2vw;
+    width: 3.1vw;
+}
+.menu-div button[btn='登入']{
+    right: 3.8vw;
+    width: 3.1vw;
+}
+.menu-div button[btn='註冊']{
+    right: 0.4vw;
+    width: 3.1vw;
+}
+.menu-div img{
+    position: absolute;
+    left: 41vw;
+    width: 16.5vw;
+}
+
+
+/*ai訂單*/
+.ai-bill{
+    position: absolute;
+    bottom: 0;
+    right: 3.7vw;
+    width: 35.8vw;
+    height: 33.4vh;
+    border-left: 0.2vw solid rgb(238, 238, 238);
+    border-top: 0.4vh solid rgb(238, 238, 238);
+}
+.ai-bill-title{
+    position: relative;
+    top: 0.3vh;
+    left: 0.4vw;
+    text-align: center;
+    font-size: 1.3vw;
+    color: rgb(0, 81, 255);
+}
+
+
+/*中間表格顯示位*/
+.eight-detail-div{
+    position: absolute;
+    bottom: 25.2vh;
+    left: 20.7vw;
+    width: 39.6vw;
+    height: 16.9vh;
+    border-top: 0.4vh solid rgb(238, 238, 238);
+    border-bottom: 0.4vh solid rgb(238, 238, 238);
+}
+
+.eight-detail-div font{
+    position: absolute;
+    font-size: 1.1vw;
+    font-weight: bold;
+    color: black;
+}
+
+.eight-detail-div font[ed='op-now']{
+    top: 0;
+    left: 2.8vw;    
+}
+.eight-detail-div font[ed='op-ftr']{
+    top: 0;
+    left: 11.5vw; 
+}
+.eight-detail-div font[ed='op-fall']{
+    top: 0;
+    right: 12vw;
+}
+.eight-detail-div font[ed='op-ptg']{
+    top: 0;
+    right: 2.8vw;
+}
+.eight-detail-div font[ed='op-ml']{
+    top: 9vh;
+    left: 2.8vw; ; 
+}
+.eight-detail-div font[ed='op-mp']{
+    top: 9vh;
+    left: 11.9vw;; 
+}
+.eight-detail-div font[ed='op-eq']{
+    top: 9vh;
+    right: 11vw;
+}
+.eight-detail-div font[ed='op-fwd']{
+    top: 9vh;
+    right: 2.2vw;
+}
+
+
+/*九宮格按鈕*/
+.ai-nine-option{
+    position: absolute;
+    z-index: 20;
+    top: 12.2vh;
+    right: 3.7vw;
+    width: 35.8vw;
+    height: 54vh;
+    border-left: 0.2vw solid rgb(238, 238, 238);
+}
+.ai-nine-option button{
+    position: absolute;
+    width: 10.5vw;
+    height: 12vh;
+    border-radius: 5px;
+    border: none;
+    background-color: lightgray;
+}
+
+.ai-nine-option button[ai-btn='策略推薦']{
+    top: 0.8vh; 
+    right: 2vw;
+    width: 31.9vw;
+    height: 4.5vh;
+    font-size: 1.2vw;
+    color: white;
+    background-color: rgb(0, 81, 255);
+    border: none;
+}
+
+.ai-nine-option button[ai-btn='1']{
+    top: 11vh;
+    right: 24.3vw;
+    
+}
+.ai-nine-option button[ai-btn='2']{
+    top: 11vh;
+    right: 12.65vw;
+}
+.ai-nine-option button[ai-btn='3']{
+    top: 11vh;
+    right: 1vw;
+}
+.ai-nine-option button[ai-btn='4']{
+    top: 25vh;
+    right: 24.3vw;
+}
+.ai-nine-option button[ai-btn='5']{
+    top: 25vh;
+    right: 12.65vw;
+}
+.ai-nine-option button[ai-btn='6']{
+    top: 25vh;
+    right: 1vw;
+}
+.ai-nine-option button[ai-btn='7']{
+    top: 39vh;
+    right: 24.3vw;
+}
+.ai-nine-option button[ai-btn='8']{
+    top: 39vh;
+    right: 12.65vw;
+}
+.ai-nine-option button[ai-btn='9']{
+    top: 39vh;
+    right: 1vw;
+}
