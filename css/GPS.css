@@ -1,0 +1,57 @@
+.GPS div{
+    position: absolute;
+    z-index: 20;
+    border: 1px solid red;
+}
+
+/*.GPS div[ldsign='菜單定位']{
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 5.7vh;
+    菜單下的線 border-bottom: 0.7vh solid red;
+}*/
+/*.GPS div[ldsign='t字帳定位']{
+    bottom: 0;
+    left: 0;
+    width: 19.7vw;
+    height: 93.3vh;
+}*/
+/*.GPS div[ldsign='圖表定位']{
+    top: 6.5vh;
+    left: 20.7vw;
+    width: 39.5vw;
+    height: 50.4vh;
+}*/
+/*
+.GPS div[ldsign='九宮格定位']{
+    top: 12.2vh;
+    right: 3.7vw;
+    width: 35.8vw;
+    height: 53.8vh;
+}
+*/
+/*.GPS div[ldsign='機器人訂單定位']{
+    bottom: 0;
+    right: 3.7vw;
+    width: 35.8vw;
+    height: 33.3vh;
+}*/
+/*.GPS div[ldsign='明細定位']{
+    bottom: 0;
+    left: 20.7vw;
+    width: 39.5vw;
+    height: 25vh;
+}*/
+/*.GPS div[ldsign='落點定位']{
+    bottom: 25.5vh;
+    left: 20.7vw;
+    width: 39.5vw;
+    height: 16.9vh;
+}*/
+/*.GPS div[ldsign='時間定位']{
+    top: 6.5vh;
+    right: 0;
+    width: 39.5vw;
+    height: 5.1vh;
+}*/
