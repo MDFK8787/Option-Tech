@@ -22,8 +22,7 @@ const myChart = new Chart(ctx, {
         'rgba(75, 192, 192, 1)',
         'rgba(153, 102, 255, 1)',
       ],
-      borderWidth: 1,
-      fill:true
+      borderWidth: 1
     }]
   },
   options: {
