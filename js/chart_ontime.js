@@ -2,7 +2,7 @@ Chart.defaults.plugins.legend = false
 
 const ctx = document.getElementById('myChart');
 const myChart = new Chart(ctx, {
-  type: 'bar',
+  type: 'line',
   data: {
     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
     datasets: [{
@@ -22,7 +22,8 @@ const myChart = new Chart(ctx, {
         'rgba(75, 192, 192, 1)',
         'rgba(153, 102, 255, 1)',
       ],
-      borderWidth: 1
+      borderWidth: 1,
+      fill:true
     }]
   },
   options: {
