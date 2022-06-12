@@ -23,7 +23,11 @@ const myChart = new Chart(ctx, {
         'rgba(153, 102, 255, 1)',
       ],
       borderWidth: 1,
-      fill:true
+      fill:true,
+      tension:0.4,
+      pointRadius:0,
+      pointHitRadius:0,
+      pointHoverRadius:0,
     }]
   },
   options: {
@@ -119,4 +123,38 @@ function crosshairline(chart , mousemove){
   }
   ctx.closePath();
   crosshairLabel(chart , mousemove);
+}
+
+function crosshairLabel(chart , mousemove){
+  const {canvas , ctx , chartArea:{top , bottom , left , right , width , height} , scales:{x , y} } = chart;
+
+  const corX = mousemove.offsetX;
+  const corY = mousemove.offsetY;
+  const textWidth = ctx.measureText(data.labels[x.getValueForPixel(corX)]).width + 10;
+
+  ctx.font = '12px sans-serif';
+  ctx.fillStyle = 'white';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+
+  ctx.beginPath();
+  if(corY >= top && corY <= bottom){
+    ctx.fillStyle = 'rgba(102,102,102,1)';
+    ctx.fillRect(0 , corY-10 , left , 20)
+  }
+  ctx.closePath();
+
+  ctx.fillStyle = 'white';
+  ctx.fillText(y.getValueForPixel(corY).toFixed(2) , left/2 , corY);//toFixed(2)小數點顯示多少位
+
+  ctx.beginPath();
+  if(corX >= left && corX <= right){
+    ctx.fillStyle = 'rgba(102,102,102,1)';
+    ctx.fillRect(corX - (textWidth/2) , bottom , textWidth , 20)
+  }
+  ctx.closePath();
+
+  ctx.fillStyle = 'white';
+  ctx.fillText(data.labels[x.getValueForPixel(corX)], corX , bottom+10);//toFixed(2)小數點顯示多少位
+
 }
