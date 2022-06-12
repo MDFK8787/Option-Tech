@@ -22,7 +22,8 @@ const myChart = new Chart(ctx, {
         'rgba(75, 192, 192, 1)',
         'rgba(153, 102, 255, 1)',
       ],
-      borderWidth: 1
+      borderWidth: 1,
+      fill:true
     }]
   },
   options: {
@@ -76,5 +77,46 @@ const myChart = new Chart(ctx, {
     Plugins:{
       
     }
-  }
+  },
 });
+
+myChart.canvas.addEventListener('mousemove' , (e) => {
+  crosshairline(myChart , e)
+})
+
+function crosshairline(chart , mousemove){
+  const {canvas , ctx , chartArea:{left , right , top , bottom}  } = chart;
+  const corX = mousemove.offsetX;
+  const corY = mousemove.offsetY;
+
+  chart.update('none');
+  ctx.restore();
+
+  if(corX >= left && corX <= right && corY >= top && corY <= bottom){
+    canvas.style.cursor = 'crosshair';
+  } else {
+    canvas.style.cursor = 'default';
+  }
+  
+
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = '#666';
+  ctx.setLineDash([4,3])
+
+  ctx.beginPath();
+  if(corX >= left && corX <= right){
+    ctx.moveTo(corX , top);
+    ctx.lineTo(corX , bottom);
+    ctx.stroke();
+  }
+  ctx.closePath();
+
+  ctx.beginPath();
+  if(corY >= top && corY <= bottom){
+    ctx.moveTo(left , corY);
+    ctx.lineTo(right , corY);
+    ctx.stroke();
+  }
+  ctx.closePath();
+  crosshairLabel(chart , mousemove);
+}
