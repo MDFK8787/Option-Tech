@@ -9,7 +9,7 @@ const data = {
       'rgba(255, 26, 104, 0.2)',
     ],
     fill:true,
-    tension:0,
+    tension:0.4,
     pointRadius:0,
     pointHitRadius:0,
     pointHoverRadius:0,
@@ -43,7 +43,7 @@ const customtooltips = {
       } else {
         yTooltip = mousemove.offsetY +20
       }
-
+      
       if(mousemove.offsetX >= left && mousemove.offsetX <= right && mousemove.offsetY >= top && mousemove.offsetY <= bottom){
         ctx.beginPath();
         ctx.fillStyle = 'white';
@@ -136,7 +136,9 @@ const config = {
         display:false
       },
       tooltip:{
-        enabled:false
+        mode: 'nearest',
+        axis: 'x',
+        //intersect: false
       }
     },
   },
