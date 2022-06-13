@@ -84,7 +84,7 @@ const config = {
   type: 'line',
   data,
   options: {
-    //maintainAspectRatio:false,
+    maintainAspectRatio:false,
     scales: {
       x: {
         beginAtZero: true,
