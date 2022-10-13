@@ -40,10 +40,8 @@ function ontime_tbar(){
                         cell2.innerHTML = cell2.innerHTML + "<font>" + 'strike' + "</font>";
                         cell3.innerHTML = cell3.innerHTML + "<button id='bt_put_sell_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_put_sell_price_" + i.toString() + ")'>" + '-' + "</button>";
                         cell4.innerHTML = cell4.innerHTML + "<button id='bt_put_buy_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_put_buy_price_" + i.toString() + ")'>" + '-' + "</button>";
-                        console.log(strike[i])
                     }
                     for (i=0;i<data_lengh;i++){
-                        console.log('1')
                         document.getElementById('bt_call_sell_price_' + i.toString()).innerHTML = all_data[i]['Call_Buy_price'];
                         document.getElementById('bt_call_buy_price_' + i.toString()).innerHTML = all_data[i]['Call_Sell_price'];
                         document.getElementById('bt_code_' + i.toString()).innerHTML = "<font>" + strike[i] + "</font>";
