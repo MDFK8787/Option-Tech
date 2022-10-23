@@ -116,8 +116,12 @@ function read_degree(){
                 color:'black'
               },
               ticks:{
+                callback: function(val, index) {//讓x軸只顯示整數(四捨五入過)
+                  // Hide every 2nd tick label
+                  return Math.round(this.getLabelForValue(val));
+                },
                 display: true,
-                stepsize: 10,
+                stepsize: 1,
                 autoSkip: true,
                 maxTicksLimit: 10,
                 color:'black',
