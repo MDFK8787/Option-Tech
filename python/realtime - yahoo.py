@@ -13,9 +13,23 @@ def loop():
         "https://tw.screener.finance.yahoo.net/future/aa03?opmr=optionfull&opcm=WTXO&opym=202008/")
     soup = BeautifulSoup(response.text, "html.parser")
     table = soup.find_all(class_="ext-big-tbl")
+
+    #大盤
+    array2 = []
+    tbody2 = table[0].tbody
+    tr2 = tbody2.find_all("tr")
+    td2 = tr2[0].find_all("td")
+    tem2 = td2[1].text.replace(" ","")
+    target = tem2[0:8]#target = 大盤
+    array2.append(target)
+    df2 = pd.DataFrame(array2)
+    df2.to_json(path_or_buf =r'C:\Users\User\Documents\GitHub\Option-Tech\json\Yahoo - Dapan.json',orient = 'records')
+    print(df2)
+    
+
+    #t字帳
     tbody = table[1].tbody
     tr = tbody.find_all("tr")
-
     array = []
 
     for i in range(len(tr)):
@@ -33,7 +47,7 @@ def loop():
         tem = array.append([aa,bb,c,dd,ee])
 
     df = pd.DataFrame(array)
-    df.to_json(path_or_buf =r'D:\Option Tech\json\Yahoo - Realtime.json',orient = 'records')
+    df.to_json(path_or_buf =r'C:\Users\User\Documents\GitHub\Option-Tech\json\Yahoo - Realtime.json',orient = 'records')
     print(df)
     time.sleep(5)
 
