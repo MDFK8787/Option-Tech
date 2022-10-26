@@ -20,7 +20,7 @@
     right: 3.5vw;
     width: 35.8vw;
     height: 5.3vh;
-    z-index: 100;
+    z-index: 90;
     border-left: 0.2vw solid rgb(238, 238, 238);
     border-bottom: 0.4vh solid rgb(238, 238, 238);
     border-right: 0.2vw solid rgb(238, 238, 238);
@@ -30,7 +30,7 @@
     position: relative;
     top: 0.4vh;
     left: 7.8vw;
-    width: 20vw;
+    width: 21vw;
     font-size: 1.5vw;
     text-align:center;
     color:black;
