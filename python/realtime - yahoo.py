@@ -44,6 +44,14 @@ def loop():
         bb = b[0:4]
         dd = d[0:4]
         ee = e[0:4]
+        if(aa[-1]=='.'):
+          aa = aa[:-1]
+        if(bb[-1]=='.'):
+          bb = bb[:-1]
+        if(dd[-1]=='.'):
+          dd = dd[:-1]
+        if(ee[-1]=='.'):
+          ee = ee[:-1]      
         tem = array.append([aa,bb,c,dd,ee])
 
     df = pd.DataFrame(array)

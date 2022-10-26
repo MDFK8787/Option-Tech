@@ -1,4 +1,5 @@
 window.setInterval(ontime_tbar(),1000)
+window.setInterval(realtime_dapan(),1000)
 
 function ontime_tbar(){
     var url_call = 'json/Yahoo - Realtime.json';
@@ -11,12 +12,6 @@ function ontime_tbar(){
                 var all_data = data
                 var row_lengh = document.getElementById("t_table").rows.length;
                 var data_lengh = Object.keys(all_data).length
-                // var strike = []//履約價存放
-                // for(var i=0;i<30;i++){
-                //     var strike_data = all_data[i]['2']
-                //     // strike_data = strike_data.slice(3,8)
-                //     strike.push(strike_data)
-                // }
                 
                 if (row_lengh !== data_lengh){
                     //先清除資料
@@ -39,7 +34,6 @@ function ontime_tbar(){
                         cell2.innerHTML = cell2.innerHTML + "<font>" + 'strike' + "</font>";
                         cell3.innerHTML = cell3.innerHTML + "<button id='bt_put_sell_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_put_sell_price_" + i.toString() + ")'>" + '-' + "</button>";
                         cell4.innerHTML = cell4.innerHTML + "<button id='bt_put_buy_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_put_buy_price_" + i.toString() + ")'>" + '-' + "</button>";
-                        console.log(strike[i])
                     }
                     for (i=0;i<data_lengh;i++){
                         console.log('1')
@@ -59,4 +53,18 @@ function ontime_tbar(){
                     }
                 }
             })
-}                
+}     
+
+function realtime_dapan(){
+    var url_call = 'json/Yahoo - Dapan.json';
+    method: 'POST',
+        fetch(url_call)
+            .then(function (resp){
+                return resp.json();
+            })
+            .then(function(data){
+                var strike_data = data
+                var dapan_targrt = document.getElementById("dapan-word-id");
+                dapan_targrt.innerHTML = strike_data[0]['0']
+            })
+}
