@@ -57,7 +57,8 @@ def loop():
     df = pd.DataFrame(array)
     df.to_json(path_or_buf =r'C:\Users\User\Documents\GitHub\Option-Tech\json\Yahoo - Realtime.json',orient = 'records')
     print(df)
-    time.sleep(5)
+    time.sleep(10)
+    
 
 if __name__ == "__main__":
   loop()

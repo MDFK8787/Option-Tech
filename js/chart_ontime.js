@@ -269,42 +269,28 @@ function crossHairPoint(chart , mousemove){
   }
 }
 
-read_degree()
-
-function read_degree(){//按照時間更新圖表
+function read_degree(time){//按照時間更新圖表 (半小時)
   var url_call = 'json/degree.json';
   method: 'POST',
     fetch(url_call)
       .then(function (resp){
-        console.log('got degree')
+        console.log('got chart data')
         return resp.json();
       })
       .then(function(data){
-       
+        console.log(data)
+        var position = time
         var data_lengh = Object.keys(data).length
         tem.length = 0
         strike.length = 0
         for(i=0;i<data_lengh;i++){
-          tem.push((data[i]["6"]*0.01))
+          tem.push((data[i][position.toString()]*0.01))
           strike.push((data[i]["contract/time"]*11400))
         }
+        console.log(tem)
+        console.log(strike)
         myChart.update
-
-        setTimeout(function(){
-          tem.length = 0
-          strike.length = 0
-          for(i=0;i<data_lengh;i++){
-            tem.push((data[i]["7"]*0.01))
-            strike.push((data[i]["contract/time"]*11400))
-          }
-          myChart.update
-        },5000)
-        
-
       })
-
-
-      
 }
 
 
