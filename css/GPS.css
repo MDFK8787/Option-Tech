@@ -6,18 +6,42 @@
 
 .dapan{
     position: absolute;
-    top: 62vh;
-    left: 23.2vw;
-    width: 5vw;
-    height: 3.2vh;
+    top: 61.5vh;
+    left: 22vw;
+    width: 36vw;
+    height: 12vh;
     z-index: 20;
     text-align:center;
 }
 
 .dapan-word{
-    position: relative;
-    width: 4vw;
-    font-size: 1.1vw;
+    position: absolute;
+    top: 0;
+    left: 0.7vw;
+    width: 6vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: red;
+}
+
+.maxP{
+    position: absolute;
+    bottom: 0;
+    left: 9.8vw;
+    width: 6vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: red;
+}
+
+.maxL{
+    position: absolute;
+    bottom: 0;
+    left: 0.7vw;
+    width: 6vw;
+    font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
     color: red;

@@ -1,20 +1,52 @@
 tem = []
 strike = []
+pl_array = []
 
+//損益變數
+var maxP_target = document.getElementById("maxP-id");
+var maxL_target = document.getElementById("maxL-id");
+caculate_pl_array = []
+caculate_pl_strike_array = []
+caculate_pl_price_array = []
+sell_call = 1
+buy_call = 2
+sell_put = 4
+buy_put = 8
+
+
+//圖表
 const data = {
   labels: strike,
   datasets: [{
     label: 'Weekly Sales',
     data: tem,
     backgroundColor: [
-      'rgba(255, 0, 0, 1)',
+      'rgba(0, 0, 255, 1)',
     ],
     fill:true,
     tension:0.4,
     pointRadius:0,
     pointHitRadius:0,
     pointHoverRadius:0,
-    borderWidth:2
+    borderWidth:2,
+    yAxisID: 'y',
+  },{
+    label: 'Profit Lost',
+    data: pl_array,
+    backgroundColor: [
+      'rgba(255, 0, 0, 0.2)',
+    ],
+    fill:{
+      target:'origin',
+      below:'rgba(0, 255, 0, 0.2)',
+      above:'rgba(255, 0, 0, 0.2)'
+    },
+    tension:0.4,
+    pointRadius:0,
+    pointHitRadius:0,
+    pointHoverRadius:0,
+    borderWidth:2,
+    yAxisID: 'pl_y'
   }]
 };
 
@@ -105,6 +137,23 @@ const config = {
           fontcolor:'black'
         }
       },
+      // pl_x: {
+      //   display: false,
+      //   position:'bottom',
+      //   beginAtZero: true,
+      //   labels: [1, 2, 3, 4, 5, 6, 7, 8],
+      //   grid:{
+      //     color:'black'
+      //   },
+      //   ticks:{
+      //     display: false,
+      //     stepsize: 1,
+      //     autoSkip: true,
+      //     maxTicksLimit: 10,
+      //     color:'black',
+      //     fontcolor:'black'
+      //   }
+      // },
       y: {
         beginAtZero: true,
         grid:{
@@ -118,7 +167,8 @@ const config = {
           color:'black',
           fontcolor:'black'
         }
-      },pl_y: {
+      },
+      pl_y: {
         suggestedMin: -100,
         suggestedMax: 100,
         position:'right',
@@ -278,22 +328,219 @@ function read_degree(time){//按照時間更新圖表 (半小時)
         return resp.json();
       })
       .then(function(data){
-        console.log(data)
         var position = time
         var data_lengh = Object.keys(data).length
         tem.length = 0
         strike.length = 0
         for(i=0;i<data_lengh;i++){
-          tem.push((data[i][position.toString()]*0.01))
-          strike.push((data[i]["contract/time"]*11400))
+          tem.push(data[i][position.toString()]/100)
+          strike.push((1+(data[i]["contract/time"]/100))*dapan_strike)
         }
-        console.log(tem)
-        console.log(strike)
+
         myChart.update
       })
 }
 
+//損益
+function caculate(){
+  var reducer = (accumulator, curr) => accumulator + curr;
+  var sum = caculate_pl_array.reduce(reducer);
+  console.log(caculate_pl_price_array)
+  if(sum == 3 || sum == 12){//多頭&空頭
+    if(caculate_pl_strike_array[0] < caculate_pl_strike_array[1]){//多頭
+      console.log("多頭")
+      pl_array.length = 0;
+      var y_length = strike.length;
+      for(i=0;i<Math.round(y_length/3);i++){
+        pl_array.push(-50);
+      }
+      var a = -50;
+      for(i=Math.round(y_length/3);i<Math.round(y_length/3*2);i++){
+        var plus = a + (100/(Math.round(y_length/3*2)-Math.round(y_length/3)));
+        pl_array.push(plus);
+        a = a + (100/(Math.round(y_length/3*2)-Math.round(y_length/3)));
+      }
+      for(i=(y_length-Math.round(y_length/3*2));i<y_length;i++){
+        pl_array.push(50);
+      }
 
+      maxP_target.innerHTML = Math.round((caculate_pl_strike_array[1] - caculate_pl_strike_array[0] - Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
+      maxL_target.innerHTML = Math.round((0-Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
+      
+      myChart.data[1] = pl_array;
+      myChart.update
+    }
+    if(caculate_pl_strike_array[0] > caculate_pl_strike_array[1]){//空頭
+      console.log("空頭")
+      pl_array.length = 0;
+      var y_length = strike.length;
+      for(i=0;i<Math.round(y_length/3);i++){
+        pl_array.push(50);
+      }
+      var a = 50;
+      for(i=Math.round(y_length/3);i<Math.round(y_length/3*2);i++){
+        var plus = a - (100/(Math.round(y_length/3*2)-Math.round(y_length/3)));
+        pl_array.push(plus);
+        a = a - (100/(Math.round(y_length/3*2)-Math.round(y_length/3)));
+      }
+      for(i=(y_length-Math.round(y_length/3*2));i<y_length;i++){
+        pl_array.push(-50);
+      }
+
+      maxP_target.innerHTML = Math.round((caculate_pl_strike_array[1] - caculate_pl_strike_array[0] - Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
+      maxL_target.innerHTML = Math.round((0-Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
+
+      myChart.data[1] = pl_array;
+      myChart.update
+    }
+  }
+}
+
+function buyCall(botton_id){
+  var buyCall_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
+  var price = botton_id.textContent;
+
+  if(caculate_pl_array.length == 2){
+    caculate_pl_array.shift();
+    caculate_pl_array.unshift(buy_call);
+    caculate_pl_strike_array.shift();
+    caculate_pl_strike_array.unshift(buyCall_strike);
+    caculate_pl_price_array.shift();
+    caculate_pl_price_array.unshift(price);
+  }else{
+    caculate_pl_array.unshift(buy_call);
+    caculate_pl_strike_array.unshift(buyCall_strike);
+    caculate_pl_price_array.unshift(price);
+  }
+
+  caculate()
+  //當只點選一個按鈕才顯示純買買
+
+  if(caculate_pl_array.length == 1){
+    pl_array.length = 0;
+    var y_length = strike.length;
+    console.log(y_length)
+    for(i=0;i<Math.round(y_length/2);i++){
+      pl_array.push(-50);
+    }
+    var a = -50;
+    for(i=Math.round(y_length/2);i<y_length;i++){
+      var plus = a + (100/(y_length-Math.round(y_length/2)));
+      pl_array.push(plus);
+      a = a + (100/(y_length-Math.round(y_length/2)));
+    }
+    myChart.data[1] = pl_array;
+    myChart.update
+  }
+  
+}
+
+function sellCall(botton_id){
+  var sellCall_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
+  var price = botton_id.textContent;
+
+  if(caculate_pl_array.length == 2){
+    caculate_pl_array.pop();
+    caculate_pl_array.push(sell_call);
+    caculate_pl_strike_array.pop();
+    caculate_pl_strike_array.push(sellCall_strike);
+    caculate_pl_price_array.pop();
+    caculate_pl_price_array.push(price);
+  }else{
+    caculate_pl_array.push(sell_call);
+    caculate_pl_strike_array.push(sellCall_strike);
+    caculate_pl_price_array.push(price);
+  }
+
+  caculate()
+
+  if(caculate_pl_array.length == 1){
+    pl_array.length = 0;
+    var y_length = strike.length;
+    for(i=0;i<Math.round(y_length/2);i++){
+      pl_array.push(50);
+    }
+    var a = 50;
+    for(i=Math.round(y_length/2);i<y_length;i++){
+      var plus = a - (100/(y_length-Math.round(y_length/2)));
+      pl_array.push(plus);
+      a = a - (100/(y_length-Math.round(y_length/2)));
+    }
+    myChart.data[1] = pl_array;
+    myChart.update
+  }
+  
+}
+
+function buyPut(botton_id){
+  var buyPut_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
+  var price = botton_id.textContent;
+
+  if(caculate_pl_array.length == 2){
+    caculate_pl_array.shift();
+    caculate_pl_array.unshift(buy_put);
+    caculate_pl_strike_array.shift();
+    caculate_pl_strike_array.unshift(buyPut_strike);
+    caculate_pl_price_array.shift();
+    caculate_pl_price_array.unshift(price);
+  }else{
+    caculate_pl_array.unshift(buy_put);
+    caculate_pl_strike_array.unshift(buyPut_strike);
+    caculate_pl_price_array.unshift(price);
+  }
+  caculate()
+
+  if(caculate_pl_array.length == 1){
+    pl_array.length = 0;
+    var y_length = strike.length;
+    var a = 50;
+    for(i=0;i<Math.round(y_length/2);i++){
+      var plus = a - (100/(y_length-Math.round(y_length/2)));
+      pl_array.push(plus);
+      a = a - (100/(y_length-Math.round(y_length/2)));
+    }
+    for(i=Math.round(y_length/2);i<y_length;i++){
+      pl_array.push(-50);
+    }
+    myChart.data[1] = pl_array;
+    myChart.update
+  }
+  
+}
+
+function sellPut(botton_id){
+  var sellPut_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
+  var price = botton_id.textContent;
+
+  if(caculate_pl_array.length == 2){
+    caculate_pl_array.pop();
+    caculate_pl_array.push(sell_put);
+    caculate_pl_strike_array.pop();
+    caculate_pl_strike_array.push(sellPut_strike);
+    caculate_pl_price_array.pop();
+    caculate_pl_price_array.push(price);
+  }else{
+    caculate_pl_array.push(sell_put);
+    caculate_pl_strike_array.push(sellPut_strike);
+    caculate_pl_price_array.push(price);
+  }
+  caculate()
+  if(caculate_pl_array.length == 1){
+    pl_array.length = 0;
+    var y_length = strike.length;
+    var a = -50;
+    for(i=0;i<Math.round(y_length/2);i++){
+      var plus = a + (100/(y_length-Math.round(y_length/2)));
+      pl_array.push(plus);
+      a = a + (100/(y_length-Math.round(y_length/2)));
+    }
+    for(i=Math.round(y_length/2);i<y_length;i++){
+      pl_array.push(50);
+    }
+    myChart.data[1] = pl_array;
+    myChart.update 
+  }
+}
 
 /*
 

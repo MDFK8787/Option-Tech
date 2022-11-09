@@ -9,16 +9,11 @@ var chartData = [Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday]
 var t = null;
 var oclock = null;
 
-firstChartCheck()
 
-function firstChartCheck(){//一開始開網頁確認該顯示的圖表
+function dapanChartCheck(){//一開始開網頁確認該顯示的圖表
     dt = new Date();
-    var y = dt.getFullYear();
-    var month = dt.getMonth();
-    var date = dt.getDate();
     var h = dt.getHours();
     var m = dt.getMinutes();
-    var s = dt.getSeconds();
     var d = dt.getDay();
     
     if(m >= 00 && m < 30){
@@ -37,7 +32,7 @@ function firstChartCheck(){//一開始開網頁確認該顯示的圖表
             oclock = chartData[d][6]
             read_degree(oclock)
         }
-        else if(h == 13){
+        else if(h >= 13){
             oclock = chartData[d][8]
             read_degree(oclock)
         }
@@ -58,7 +53,7 @@ function firstChartCheck(){//一開始開網頁確認該顯示的圖表
             oclock = chartData[d][7]
             read_degree(oclock)
         }
-        else if(h == 16){
+        else if(h >= 13){
             oclock = chartData[d][9]
             read_degree(oclock)
         }

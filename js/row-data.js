@@ -1,9 +1,10 @@
 var array = new Array();
 var row = document.getElementById("row-data").rows.length;;//印出來的所按的按鈕資料行數
+
 function show_detail(botton_id){
     
     if (botton_id.id === "bt_call_buy_price_" + botton_id.name.toString()) {
-        console.log('nice')//將t字帳按的按鈕的所有資料暫存進陣列
+        //將t字帳按的按鈕的所有資料暫存進陣列
         var rowdata = row + 1,
             buysell = "short",
             CP = "Call",
