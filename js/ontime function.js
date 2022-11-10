@@ -30,11 +30,11 @@ function ontime_tbar(){//t字帳
                         cell2.setAttribute("class",'strike_style');
 
 
-                        cell0.innerHTML = cell0.innerHTML + "<button id='bt_call_buy_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_call_buy_price_" + i.toString() + ");buyCall(bt_call_buy_price_" + i.toString() + ")'>" + '-' + "</button>";
-                        cell1.innerHTML = cell1.innerHTML + "<button id='bt_call_sell_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_call_sell_price_" + i.toString() + ");sellCall(bt_call_sell_price_" + i.toString() + ")'>" + '-' + "</button>";
+                        cell0.innerHTML = cell0.innerHTML + "<button id='bt_call_buy_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_call_buy_price_" + i.toString() + ");buyCall(bt_call_buy_price_" + i.toString() + ","+i+")'>" + '-' + "</button>";
+                        cell1.innerHTML = cell1.innerHTML + "<button id='bt_call_sell_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_call_sell_price_" + i.toString() + ");sellCall(bt_call_sell_price_" + i.toString() + ","+i+")'>" + '-' + "</button>";
                         cell2.innerHTML = cell2.innerHTML + "<font>" + 'strike' + "</font>";
-                        cell3.innerHTML = cell3.innerHTML + "<button id='bt_put_sell_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_put_sell_price_" + i.toString() + ");sellPut(bt_put_sell_price_" + i.toString() + ")'>" + '-' + "</button>";
-                        cell4.innerHTML = cell4.innerHTML + "<button id='bt_put_buy_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_put_buy_price_" + i.toString() + ");buyPut(bt_put_buy_price_" + i.toString() + ")'>" + '-' + "</button>";
+                        cell3.innerHTML = cell3.innerHTML + "<button id='bt_put_sell_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_put_sell_price_" + i.toString() + ");sellPut(bt_put_sell_price_" + i.toString() + ","+i+")'>" + '-' + "</button>";
+                        cell4.innerHTML = cell4.innerHTML + "<button id='bt_put_buy_price_" + i.toString() + "' name='" + i.toString() + "' class='btn_style' onclick='show_detail(bt_put_buy_price_" + i.toString() + ");buyPut(bt_put_buy_price_" + i.toString() + ","+i+")'>" + '-' + "</button>";
                     }
                     for (i=0;i<data_lengh;i++){
                         document.getElementById('bt_call_sell_price_' + i.toString()).innerHTML = all_data[i]['0'];

@@ -2,6 +2,11 @@ tem = []
 strike = []
 pl_array = []
 
+//按鈕變色變數
+sc_style = null;
+bc_style = null;
+sp_style = null;
+bp_style = null;
 //損益變數
 var maxP_target = document.getElementById("maxP-id");
 var maxL_target = document.getElementById("maxL-id");
@@ -345,27 +350,30 @@ function read_degree(time){//按照時間更新圖表 (半小時)
 function caculate(){
   var reducer = (accumulator, curr) => accumulator + curr;
   var sum = caculate_pl_array.reduce(reducer);
-  console.log(caculate_pl_price_array)
+  
+  var pmax = Math.round((caculate_pl_strike_array[1] - caculate_pl_strike_array[0] - Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
+  var lmax =Math.round((0-Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
+
   if(sum == 3 || sum == 12){//多頭&空頭
     if(caculate_pl_strike_array[0] < caculate_pl_strike_array[1]){//多頭
       console.log("多頭")
       pl_array.length = 0;
       var y_length = strike.length;
       for(i=0;i<Math.round(y_length/3);i++){
-        pl_array.push(-50);
+        pl_array.push(lmax);
       }
-      var a = -50;
+      var a = lmax;
       for(i=Math.round(y_length/3);i<Math.round(y_length/3*2);i++){
-        var plus = a + (100/(Math.round(y_length/3*2)-Math.round(y_length/3)));
+        var plus = a + (Math.abs(pmax - lmax)/(Math.round(y_length/3*2)-Math.round(y_length/3)));
         pl_array.push(plus);
-        a = a + (100/(Math.round(y_length/3*2)-Math.round(y_length/3)));
+        a = a + (Math.abs(pmax - lmax)/(Math.round(y_length/3*2)-Math.round(y_length/3)));
       }
       for(i=(y_length-Math.round(y_length/3*2));i<y_length;i++){
-        pl_array.push(50);
+        pl_array.push(pmax);
       }
 
-      maxP_target.innerHTML = Math.round((caculate_pl_strike_array[1] - caculate_pl_strike_array[0] - Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
-      maxL_target.innerHTML = Math.round((0-Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
+      maxP_target.innerHTML = pmax
+      maxL_target.innerHTML = lmax
       
       myChart.data[1] = pl_array;
       myChart.update
@@ -396,7 +404,17 @@ function caculate(){
   }
 }
 
-function buyCall(botton_id){
+function buyCall(botton_id,number){
+
+  if(bc_style != null){
+    var restyle = document.getElementById("bt_call_buy_price_" + bc_style)
+    restyle.style.backgroundColor = 'white';
+    restyle.style.color = 'gray'
+  }
+  botton_id.style.backgroundColor = 'gray';
+  botton_id.style.color = 'white'
+  bc_style = number;
+
   var buyCall_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
   var price = botton_id.textContent;
 
@@ -435,7 +453,16 @@ function buyCall(botton_id){
   
 }
 
-function sellCall(botton_id){
+function sellCall(botton_id,number){
+  if(sc_style != null){
+    var restyle = document.getElementById("bt_call_sell_price_" + sc_style)
+    restyle.style.backgroundColor = 'white';
+    restyle.style.color = 'gray'
+  }
+  botton_id.style.backgroundColor = 'gray';
+  botton_id.style.color = 'white'
+  sc_style = number;
+
   var sellCall_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
   var price = botton_id.textContent;
 
@@ -472,7 +499,16 @@ function sellCall(botton_id){
   
 }
 
-function buyPut(botton_id){
+function buyPut(botton_id,number){
+  if(bp_style != null){
+    var restyle = document.getElementById("bt_put_buy_price_" + bp_style)
+    restyle.style.backgroundColor = 'white';
+    restyle.style.color = 'gray'
+  }
+  botton_id.style.backgroundColor = 'gray';
+  botton_id.style.color = 'white'
+  bp_style = number;
+
   var buyPut_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
   var price = botton_id.textContent;
 
@@ -508,7 +544,16 @@ function buyPut(botton_id){
   
 }
 
-function sellPut(botton_id){
+function sellPut(botton_id,number){
+  if(sp_style != null){
+    var restyle = document.getElementById("bt_put_sell_price_" + sp_style)
+    restyle.style.backgroundColor = 'white';
+    restyle.style.color = 'gray'
+  }
+  botton_id.style.backgroundColor = 'gray';
+  botton_id.style.color = 'white'
+  sp_style = number;
+
   var sellPut_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
   var price = botton_id.textContent;
 

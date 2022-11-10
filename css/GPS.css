@@ -47,6 +47,28 @@
     color: red;
 }
 
+.target-strike{
+    position: absolute;
+    top: 0;
+    left: 21.1vw;
+    width: 6vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: red;
+}
+
+.pasu{
+    position: absolute;
+    top: 0;
+    left: 31.4vw;
+    width: 6vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: red;
+}
+
 /*.GPS div[ldsign='菜單定位']{
     top: 0;
     left: 0;
