@@ -22,7 +22,7 @@
     font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
-    color: red;
+    color: #FF434D;
 }
 
 .maxP{
@@ -33,7 +33,7 @@
     font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
-    color: red;
+    color: #FF434D;
 }
 
 .maxL{
@@ -44,7 +44,7 @@
     font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
-    color: red;
+    color: #00BD8C;
 }
 
 .target-strike{
@@ -55,7 +55,7 @@
     font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
-    color: red;
+    color: rgb(0, 119, 255);
 }
 
 .pasu{
@@ -66,7 +66,7 @@
     font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
-    color: red;
+    color: rgb(255, 174, 0);
 }
 
 /*.GPS div[ldsign='菜單定位']{

@@ -1,6 +1,19 @@
+//1分鐘圖表變數
+loop = 0//迴圈次數
+per_min_data = 271//根據機率圖表一天組數自行更改
+per_min_strike = []
+allday_data = []
+
+
+
 tem = []
 strike = []
 pl_array = []
+//最高履約價
+hstrike = 0;
+hpercent = 0;
+var hstrike_target = document.getElementById("target-strike-id");
+var pasu_target = document.getElementById("pasu-id");
 
 //按鈕變色變數
 sc_style = null;
@@ -26,7 +39,7 @@ const data = {
     label: 'Weekly Sales',
     data: tem,
     backgroundColor: [
-      'rgba(0, 0, 255, 1)',
+      'rgba(152,217,242, 0.6)',
     ],
     fill:true,
     tension:0.4,
@@ -323,6 +336,61 @@ function crossHairPoint(chart , mousemove){
     ctx.closePath();
   }
 }
+load_degree_1min()
+
+function load_degree_1min(){//按照時間更新圖表 (1min)
+  var url_call = 'json/degree per minute.json';
+  method: 'POST',
+    fetch(url_call)
+      .then(function (resp){
+        console.log('got 1min data')
+        return resp.json();
+      })
+      .then(function(data){
+        console.log(data)
+        var data_lengh = Object.keys(data).length
+        
+        per_min_strike.length = 0
+        for(i=0;i<data_lengh;i++){
+          strike.push(Math.round((1+data[i]["漲跌幅"])*dapan_strike));
+        }
+
+        var tem_per_min_data = per_min_data
+        for(z=0;z<5;z++){
+          var tem_day_data = []
+          for(j=loop;j<tem_per_min_data;j++){
+            var tem_data = []
+            for(i=0;i<data_lengh;i++){
+              tem_data.push(data[i][j.toString()])
+            }
+            tem_day_data.push(tem_data)
+          }
+          allday_data.push(tem_day_data)
+          loop += per_min_data
+          tem_per_min_data += per_min_data
+        }
+      })
+}
+
+function chartUpdate_perMin(x_data){
+  myChart.data.datasets[0].data = x_data;
+  myChart.update
+
+  hstrike = 0;
+  hpercent = 0;
+  console.log(x_data.length)
+  for(i=0;i<x_data.length;i++){
+    if(x_data[i] > hpercent){
+      hpercent = x_data[i]
+      hstrike = i
+      console.log(hpercent)
+    }
+    
+  }
+  hpercent = Math.round(hpercent*1000)/1000
+  hstrike_target.innerHTML = strike[hstrike]
+  pasu_target.innerHTML = hpercent.toString()+"%";
+}
 
 function read_degree(time){//按照時間更新圖表 (半小時)
   var url_call = 'json/degree.json';
@@ -341,8 +409,20 @@ function read_degree(time){//按照時間更新圖表 (半小時)
           tem.push(data[i][position.toString()]/100)
           strike.push((1+(data[i]["contract/time"]/100))*dapan_strike)
         }
-
         myChart.update
+
+        hstrike = 0;
+        hpercent = 0;
+        for(i=0;i<data_lengh;i++){
+          if(data[i][position.toString()]/100 > hpercent){
+            hpercent = data[i][position.toString()]/100
+            hstrike = (1+(data[i]["contract/time"]/100))*dapan_strike
+          }
+        }
+        hpercent = Math.round(hpercent*1000)/1000
+        hstrike = Math.round(hstrike)
+        hstrike_target.innerHTML = hstrike.toString();
+        pasu_target.innerHTML = hpercent.toString()+"%";
       })
 }
 
