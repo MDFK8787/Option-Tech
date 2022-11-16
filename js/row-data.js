@@ -108,3 +108,5 @@ function Clearallrow(array) {
     }
     row = document.getElementById("row-data").rows.length; //讓row回歸0													
 }
+
+//嗨
