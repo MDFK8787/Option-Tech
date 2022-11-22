@@ -47,6 +47,7 @@ function show_detail(botton_id){
     array[row][5] = button_id;
 
     Newrow(array,row)
+    console.log(row)
     return row++;
 }
 
@@ -94,7 +95,8 @@ function removerow(selected) {
         array[i][0]=i+1;
         var reset_item = document.getElementById('row-data').rows[i].cells[0];
         reset_item.innerHTML = i+1;
-    }		
+    }	
+    delete_chart_pl(selected.name)
 }
 
 function Clearallrow(array) {
@@ -107,4 +109,14 @@ function Clearallrow(array) {
         document.getElementById("row-data").deleteRow(0);
     }
     row = document.getElementById("row-data").rows.length; //讓row回歸0													
+}
+
+function delete_chart_pl(target){
+    caculate_pl_array.splice(target,1);
+    if(caculate_pl_array.length == 0){
+        recaculate(0)
+    }else{
+        var ary = caculate_pl_array[0].length;
+        recaculate(ary);
+    }
 }

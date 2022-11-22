@@ -1,12 +1,13 @@
 var dapan_target = document.getElementById("dapan-word-id");
-var dapan_strike = 12000;
+var dapan_strike = 0;//大盤
+var dapan_options = null;//靠近大盤的履約價
 
 function ontime_tbar(){//t字帳
     var url_call = 'json/Yahoo - Realtime.json';
     method: 'POST',
         fetch(url_call)
             .then(function (resp){
-                console.log("success load json");
+                console.log("got tbar data");
                 return resp.json();
             })
             .then(function(data){
@@ -61,23 +62,36 @@ function realtime_dapan(){//大盤即時
     method: 'POST',
         fetch(url_call)
             .then(function (resp){
-                console.log("success load dapan")
+                console.log("got dapan data")
                 return resp.json();
             })
             .then(function(data){
                 var strike_data = data
                 dapan_strike = strike_data[0]['0']
                 dapan_target.innerHTML = strike_data[0]['0']
-                dapanChartCheck()
+                caculate_dapan()
             })
     setTimeout('realtime_dapan()',60000);       
+}
+
+function caculate_dapan(){//計算台指現價靠近的履約價
+    var a = Math.floor(dapan_strike)
+    var aa =100 - (a - (Math.floor((a/100))*100))
+    
+    if(aa > 75){
+        dapan_options = Math.floor((a/100))*100
+    }else if(aa < 25){
+        dapan_options = Math.floor((a/100))*100 + 100
+    }else{
+        dapan_options = Math.floor((a/100))*100 + 50
+    }
 }
 
 
 
 
 
-function ontime_tbar_ajax(){
+function ontime_tbar_ajax(){//ajax取得t字帳
     $.ajax({
         type: "GET",
         url: "json/Yahoo - Realtime.json",

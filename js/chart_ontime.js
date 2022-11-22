@@ -1,17 +1,17 @@
 //1分鐘圖表變數
-loop = 0//迴圈次數
-per_min_data = 271//根據機率圖表一天組數自行更改
-per_min_strike = []
-allday_data = []
+loop = 0;//迴圈次數
+per_min_data = 271;//根據機率圖表一天組數自行更改
+per_min_strike = [];
+allday_data = [];
 
 
 
-tem = []
-strike = []
-pl_array = []
-//最高履約價
-hstrike = 0;
-hpercent = 0;
+tem = [];
+strike = [];
+pl_array = [];
+
+hstrike = 0;//每分鐘最高履約價
+hpercent = 0;//每分鐘最高機率
 var hstrike_target = document.getElementById("target-strike-id");
 var pasu_target = document.getElementById("pasu-id");
 
@@ -20,17 +20,20 @@ sc_style = null;
 bc_style = null;
 sp_style = null;
 bp_style = null;
+
 //損益變數
 var maxP_target = document.getElementById("maxP-id");
 var maxL_target = document.getElementById("maxL-id");
-caculate_pl_array = []
-caculate_pl_strike_array = []
-caculate_pl_price_array = []
-sell_call = 1
-buy_call = 2
-sell_put = 4
-buy_put = 8
+caculate_pl_array = [];//所有損益存放
+sell_call = [];
+buy_call = [];
+sell_put = [];
+buy_put = [];
 
+//圖表第二x軸變數
+highest_strike = 0;
+lowest_strike = 0;
+pl_x_label = [];//第二x軸
 
 //圖表
 const data = {
@@ -64,6 +67,7 @@ const data = {
     pointHitRadius:0,
     pointHoverRadius:0,
     borderWidth:2,
+    xAxisID: 'pl_x',
     yAxisID: 'pl_y'
   }]
 };
@@ -155,24 +159,25 @@ const config = {
           fontcolor:'black'
         }
       },
-      // pl_x: {
-      //   display: false,
-      //   position:'bottom',
-      //   beginAtZero: true,
-      //   labels: [1, 2, 3, 4, 5, 6, 7, 8],
-      //   grid:{
-      //     color:'black'
-      //   },
-      //   ticks:{
-      //     display: false,
-      //     stepsize: 1,
-      //     autoSkip: true,
-      //     maxTicksLimit: 10,
-      //     color:'black',
-      //     fontcolor:'black'
-      //   }
-      // },
+      pl_x: {
+        display: false,
+        position:'bottom',
+        beginAtZero: true,
+        labels: pl_x_label,
+        grid:{
+          color:'black'
+        },
+        ticks:{
+          display: true,
+          stepsize: 1,
+          autoSkip: true,
+          maxTicksLimit: 10,
+          color:'black',
+          fontcolor:'black'
+        }
+      },
       y: {
+        position:'right',
         beginAtZero: true,
         grid:{
           color:'black'
@@ -189,7 +194,7 @@ const config = {
       pl_y: {
         suggestedMin: -100,
         suggestedMax: 100,
-        position:'right',
+        position:'left',
         beginAtZero: false,
         grid:{
           display:false
@@ -336,9 +341,12 @@ function crossHairPoint(chart , mousemove){
     ctx.closePath();
   }
 }
-load_degree_1min()
 
-function load_degree_1min(){//按照時間更新圖表 (1min)
+//按照時間更新圖表 (1min) 程式啟動時先將資料存進陣列
+//延遲10毫秒等待台指即時報價
+//資料存入後執行一次性圖表偵測
+setTimeout('load_degree_1min()',10)
+function load_degree_1min(){
   var url_call = 'json/degree per minute.json';
   method: 'POST',
     fetch(url_call)
@@ -347,14 +355,11 @@ function load_degree_1min(){//按照時間更新圖表 (1min)
         return resp.json();
       })
       .then(function(data){
-        console.log(data)
         var data_lengh = Object.keys(data).length
-        
         per_min_strike.length = 0
         for(i=0;i<data_lengh;i++){
-          strike.push(Math.round((1+data[i]["漲跌幅"])*dapan_strike));
+          strike.push(Math.round((1+data[i]["漲跌幅"])*dapan_strike));//圖表x軸
         }
-
         var tem_per_min_data = per_min_data
         for(z=0;z<5;z++){
           var tem_day_data = []
@@ -369,21 +374,22 @@ function load_degree_1min(){//按照時間更新圖表 (1min)
           loop += per_min_data
           tem_per_min_data += per_min_data
         }
+        dapanChartCheck()
+        most_highAndLow_strike()
       })
 }
 
-function chartUpdate_perMin(x_data){
+function chartUpdate_perMin(x_data){//每分鐘偵測並更換圖表
   myChart.data.datasets[0].data = x_data;
   myChart.update
 
   hstrike = 0;
   hpercent = 0;
-  console.log(x_data.length)
+  //console.log(x_data.length)
   for(i=0;i<x_data.length;i++){
     if(x_data[i] > hpercent){
       hpercent = x_data[i]
       hstrike = i
-      console.log(hpercent)
     }
     
   }
@@ -392,100 +398,91 @@ function chartUpdate_perMin(x_data){
   pasu_target.innerHTML = hpercent.toString()+"%";
 }
 
-function read_degree(time){//按照時間更新圖表 (半小時)
-  var url_call = 'json/degree.json';
-  method: 'POST',
-    fetch(url_call)
-      .then(function (resp){
-        console.log('got chart data')
-        return resp.json();
-      })
-      .then(function(data){
-        var position = time
-        var data_lengh = Object.keys(data).length
-        tem.length = 0
-        strike.length = 0
-        for(i=0;i<data_lengh;i++){
-          tem.push(data[i][position.toString()]/100)
-          strike.push((1+(data[i]["contract/time"]/100))*dapan_strike)
-        }
-        myChart.update
-
-        hstrike = 0;
-        hpercent = 0;
-        for(i=0;i<data_lengh;i++){
-          if(data[i][position.toString()]/100 > hpercent){
-            hpercent = data[i][position.toString()]/100
-            hstrike = (1+(data[i]["contract/time"]/100))*dapan_strike
-          }
-        }
-        hpercent = Math.round(hpercent*1000)/1000
-        hstrike = Math.round(hstrike)
-        hstrike_target.innerHTML = hstrike.toString();
-        pasu_target.innerHTML = hpercent.toString()+"%";
-      })
+function most_highAndLow_strike(){//找出最大及最小履約價
+  var tem_max = strike[0];
+  var tem_min = strike[0];
+  for(i=0;i<strike.length;i++){
+    if(tem_max < strike[i]){
+      tem_max = strike[i]
+    }
+    if(tem_min > strike[i]){
+      tem_min = strike[i]
+    }
+  }
+  highest_strike = tem_max
+  lowest_strike = tem_min
+  for(i=tem_min;i<tem_max;i++){
+    pl_x_label.push(i)
+  }
+  myChart.config.options.scales.pl_x.labels = pl_x_label
+  myChart.update
 }
 
 //損益
-function caculate(){
-  var reducer = (accumulator, curr) => accumulator + curr;
-  var sum = caculate_pl_array.reduce(reducer);
+function caculate(ary){
+  caculate_pl_array.push(ary)
+  pl_array.length = 0;
+  for(j=0;j<ary.length;j++){
+    var tem = 0;
+    for(i=0;i<caculate_pl_array.length;i++){
+      tem += caculate_pl_array[i][j]
+    }
+    pl_array.push(Math.round(tem*100)/100)
+  }
+
+  myChart.data[1] = pl_array;
+  myChart.update
+
+  var pmax = pl_array[0]
+  var lmax = pl_array[0]
+  for(i=0;i<pl_array.length;i++){
+    if(pmax<pl_array[i]){
+      pmax = pl_array[i]
+    }
+    if(lmax>pl_array[i]){
+      lmax = pl_array[i]
+    }
+  }
+  maxP_target.innerHTML = pmax
+  maxL_target.innerHTML = lmax
+}
+
+function recaculate(ary){
+  if(ary == 0){
+    pl_array.length = 0;
+    myChart.data[1] = pl_array;
+    myChart.update
+    maxP_target.innerHTML = ''
+    maxL_target.innerHTML = ''
+  }else{
+    pl_array.length = 0;
+    for(j=0;j<ary;j++){
+      var tem = 0;
+      for(i=0;i<caculate_pl_array.length;i++){
+        tem += caculate_pl_array[i][j]
+      }
+      pl_array.push(Math.round(tem*100)/100)
+    }
   
-  var pmax = Math.round((caculate_pl_strike_array[1] - caculate_pl_strike_array[0] - Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
-  var lmax =Math.round((0-Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
+    myChart.data[1] = pl_array;
+    myChart.update
 
-  if(sum == 3 || sum == 12){//多頭&空頭
-    if(caculate_pl_strike_array[0] < caculate_pl_strike_array[1]){//多頭
-      console.log("多頭")
-      pl_array.length = 0;
-      var y_length = strike.length;
-      for(i=0;i<Math.round(y_length/3);i++){
-        pl_array.push(lmax);
+    var pmax = pl_array[0]
+    var lmax = pl_array[0]
+    for(i=0;i<pl_array.length;i++){
+      if(pmax<pl_array[i]){
+        pmax = pl_array[i]
       }
-      var a = lmax;
-      for(i=Math.round(y_length/3);i<Math.round(y_length/3*2);i++){
-        var plus = a + (Math.abs(pmax - lmax)/(Math.round(y_length/3*2)-Math.round(y_length/3)));
-        pl_array.push(plus);
-        a = a + (Math.abs(pmax - lmax)/(Math.round(y_length/3*2)-Math.round(y_length/3)));
+      if(lmax>pl_array[i]){
+        lmax = pl_array[i]
       }
-      for(i=(y_length-Math.round(y_length/3*2));i<y_length;i++){
-        pl_array.push(pmax);
-      }
-
-      maxP_target.innerHTML = pmax
-      maxL_target.innerHTML = lmax
-      
-      myChart.data[1] = pl_array;
-      myChart.update
     }
-    if(caculate_pl_strike_array[0] > caculate_pl_strike_array[1]){//空頭
-      console.log("空頭")
-      pl_array.length = 0;
-      var y_length = strike.length;
-      for(i=0;i<Math.round(y_length/3);i++){
-        pl_array.push(50);
-      }
-      var a = 50;
-      for(i=Math.round(y_length/3);i<Math.round(y_length/3*2);i++){
-        var plus = a - (100/(Math.round(y_length/3*2)-Math.round(y_length/3)));
-        pl_array.push(plus);
-        a = a - (100/(Math.round(y_length/3*2)-Math.round(y_length/3)));
-      }
-      for(i=(y_length-Math.round(y_length/3*2));i<y_length;i++){
-        pl_array.push(-50);
-      }
-
-      maxP_target.innerHTML = Math.round((caculate_pl_strike_array[1] - caculate_pl_strike_array[0] - Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
-      maxL_target.innerHTML = Math.round((0-Number(caculate_pl_price_array[0]) + Number(caculate_pl_price_array[1]))*100)/100;
-
-      myChart.data[1] = pl_array;
-      myChart.update
-    }
+    maxP_target.innerHTML = pmax
+    maxL_target.innerHTML = lmax
   }
 }
 
 function buyCall(botton_id,number){
-
   if(bc_style != null){
     var restyle = document.getElementById("bt_call_buy_price_" + bc_style)
     restyle.style.backgroundColor = 'white';
@@ -495,42 +492,17 @@ function buyCall(botton_id,number){
   botton_id.style.color = 'white'
   bc_style = number;
 
-  var buyCall_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
-  var price = botton_id.textContent;
-
-  if(caculate_pl_array.length == 2){
-    caculate_pl_array.shift();
-    caculate_pl_array.unshift(buy_call);
-    caculate_pl_strike_array.shift();
-    caculate_pl_strike_array.unshift(buyCall_strike);
-    caculate_pl_price_array.shift();
-    caculate_pl_price_array.unshift(price);
-  }else{
-    caculate_pl_array.unshift(buy_call);
-    caculate_pl_strike_array.unshift(buyCall_strike);
-    caculate_pl_price_array.unshift(price);
-  }
-
-  caculate()
-  //當只點選一個按鈕才顯示純買買
-
-  if(caculate_pl_array.length == 1){
-    pl_array.length = 0;
-    var y_length = strike.length;
-    console.log(y_length)
-    for(i=0;i<Math.round(y_length/2);i++){
-      pl_array.push(-50);
+  var buyCall_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
+  var price = Number(botton_id.textContent);
+  buy_call.length = 0;
+  for(i=lowest_strike;i<highest_strike;i++){
+    if(i<=buyCall_strike){
+      buy_call.push(0-price)
+    }else{
+      buy_call.push((i-buyCall_strike)-price)
     }
-    var a = -50;
-    for(i=Math.round(y_length/2);i<y_length;i++){
-      var plus = a + (100/(y_length-Math.round(y_length/2)));
-      pl_array.push(plus);
-      a = a + (100/(y_length-Math.round(y_length/2)));
-    }
-    myChart.data[1] = pl_array;
-    myChart.update
   }
-  
+  caculate(buy_call)
 }
 
 function sellCall(botton_id,number){
@@ -543,40 +515,17 @@ function sellCall(botton_id,number){
   botton_id.style.color = 'white'
   sc_style = number;
 
-  var sellCall_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
-  var price = botton_id.textContent;
-
-  if(caculate_pl_array.length == 2){
-    caculate_pl_array.pop();
-    caculate_pl_array.push(sell_call);
-    caculate_pl_strike_array.pop();
-    caculate_pl_strike_array.push(sellCall_strike);
-    caculate_pl_price_array.pop();
-    caculate_pl_price_array.push(price);
-  }else{
-    caculate_pl_array.push(sell_call);
-    caculate_pl_strike_array.push(sellCall_strike);
-    caculate_pl_price_array.push(price);
-  }
-
-  caculate()
-
-  if(caculate_pl_array.length == 1){
-    pl_array.length = 0;
-    var y_length = strike.length;
-    for(i=0;i<Math.round(y_length/2);i++){
-      pl_array.push(50);
+  var sellCall_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
+  var price = Number(botton_id.textContent);
+  sell_call.length = 0;
+  for(i=lowest_strike;i<highest_strike;i++){
+    if(i<=sellCall_strike){
+      sell_call.push(0+price)
+    }else{
+      sell_call.push((sellCall_strike-i)+price)
     }
-    var a = 50;
-    for(i=Math.round(y_length/2);i<y_length;i++){
-      var plus = a - (100/(y_length-Math.round(y_length/2)));
-      pl_array.push(plus);
-      a = a - (100/(y_length-Math.round(y_length/2)));
-    }
-    myChart.data[1] = pl_array;
-    myChart.update
   }
-  
+  caculate(sell_call)
 }
 
 function buyPut(botton_id,number){
@@ -589,39 +538,17 @@ function buyPut(botton_id,number){
   botton_id.style.color = 'white'
   bp_style = number;
 
-  var buyPut_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
-  var price = botton_id.textContent;
-
-  if(caculate_pl_array.length == 2){
-    caculate_pl_array.shift();
-    caculate_pl_array.unshift(buy_put);
-    caculate_pl_strike_array.shift();
-    caculate_pl_strike_array.unshift(buyPut_strike);
-    caculate_pl_price_array.shift();
-    caculate_pl_price_array.unshift(price);
-  }else{
-    caculate_pl_array.unshift(buy_put);
-    caculate_pl_strike_array.unshift(buyPut_strike);
-    caculate_pl_price_array.unshift(price);
-  }
-  caculate()
-
-  if(caculate_pl_array.length == 1){
-    pl_array.length = 0;
-    var y_length = strike.length;
-    var a = 50;
-    for(i=0;i<Math.round(y_length/2);i++){
-      var plus = a - (100/(y_length-Math.round(y_length/2)));
-      pl_array.push(plus);
-      a = a - (100/(y_length-Math.round(y_length/2)));
+  var buyPut_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
+  var price = Number(botton_id.textContent);
+  buy_put.length = 0;
+  for(i=lowest_strike;i<highest_strike;i++){
+    if(i<=buyPut_strike){
+      buy_put.push((buyPut_strike-i)-price)
+    }else{
+      buy_put.push(0-price)
     }
-    for(i=Math.round(y_length/2);i<y_length;i++){
-      pl_array.push(-50);
-    }
-    myChart.data[1] = pl_array;
-    myChart.update
   }
-  
+  caculate(buy_put)
 }
 
 function sellPut(botton_id,number){
@@ -634,37 +561,17 @@ function sellPut(botton_id,number){
   botton_id.style.color = 'white'
   sp_style = number;
 
-  var sellPut_strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent;
-  var price = botton_id.textContent;
-
-  if(caculate_pl_array.length == 2){
-    caculate_pl_array.pop();
-    caculate_pl_array.push(sell_put);
-    caculate_pl_strike_array.pop();
-    caculate_pl_strike_array.push(sellPut_strike);
-    caculate_pl_price_array.pop();
-    caculate_pl_price_array.push(price);
-  }else{
-    caculate_pl_array.push(sell_put);
-    caculate_pl_strike_array.push(sellPut_strike);
-    caculate_pl_price_array.push(price);
-  }
-  caculate()
-  if(caculate_pl_array.length == 1){
-    pl_array.length = 0;
-    var y_length = strike.length;
-    var a = -50;
-    for(i=0;i<Math.round(y_length/2);i++){
-      var plus = a + (100/(y_length-Math.round(y_length/2)));
-      pl_array.push(plus);
-      a = a + (100/(y_length-Math.round(y_length/2)));
+  var sellPut_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
+  var price = Number(botton_id.textContent);
+  sell_put.length = 0;
+  for(i=lowest_strike;i<highest_strike;i++){
+    if(i<=sellPut_strike){
+      sell_put.push((i-sellPut_strike)+price)
+    }else{
+      sell_put.push(0+price)
     }
-    for(i=Math.round(y_length/2);i<y_length;i++){
-      pl_array.push(50);
-    }
-    myChart.data[1] = pl_array;
-    myChart.update 
   }
+  caculate(sell_put)
 }
 
 /*
