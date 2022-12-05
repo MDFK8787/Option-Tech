@@ -1,9 +1,10 @@
 .detail-list{
     position: absolute;
     bottom: 0;
-    left: 20.7vw;
-    width: 39.5vw;
-    height: 25vh;
+    left: 59vw;
+    width: 37.2vw;
+    height: 37vh;
+    color:#FFFFFF;
     border-collapse: collapse;
 }
 .detail-top thead, tbody tr {
@@ -41,7 +42,7 @@
 
 /*body*/
 .detail-list tbody{
-    height: 21.5vh;
+    height: 20vh;
     display: block;
     overflow: overlay;
     text-align: center;
@@ -56,39 +57,40 @@
 .row-item{
     width: 15%;
     color: white;
-    background-color: #A6A6A6;
+    background-color: #393c4c;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 .row-ls{
     width: 15%;
     color: white;
-    background-color: #A6A6A6;
+    background-color: #393c4c;
 }
 .row-cp{
     width: 15%;
     color: white;
-    background-color: #A6A6A6;
+    background-color: #393c4c;
 }
 .row-st{
     width: 15%;
     color: white;
-    background-color: #A6A6A6;
+    background-color: #393c4c;
 }
 .row-qt{
     width: 15%;
     color: white;
-    background-color: #A6A6A6;
+    background-color: #393c4c;
 }
 .row-am{
     width: 15%;
     color: white;
-    background-color: #A6A6A6;
+    background-color: #393c4c;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 .row-del{
     width: 10%;
+    background-color: none;
 }
 
 .text{
@@ -99,12 +101,14 @@
 }
 
 .row-del button{
-    height: 2.7vh;
+    height: 2.8vh;
     border-radius: 50%;
     color: white;
-    border-color: red;
-    background-color: red;
+    border-color: #7A8196;
+    background-color: #4357b2;
 }
+
+
 
 
 

@@ -1,3 +1,5 @@
+/* border: 1px solid #FF434D; */
+
 .GPS div{
     position: absolute;
     z-index: 20;
@@ -6,117 +8,125 @@
 
 .dapan{
     position: absolute;
-    top: 61.5vh;
-    left: 22vw;
-    width: 36vw;
-    height: 12vh;
+    bottom: 0;
+    left: 20.7vw;
+    width: 38vw;
+    height: 37vh;
     z-index: 20;
     text-align:center;
 }
 
 .dapan-word{
     position: absolute;
-    top: 0;
-    left: 0.7vw;
+    top: 4.5vh;
+    left: 8.8vw;
     width: 6vw;
     font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
-    color: #FF434D;
+    color: #F68404;
 }
-
-.maxP{
+.dapan-close1{
     position: absolute;
-    bottom: 0;
-    left: 9.8vw;
+    top: 4.5vh;
+    left: 23.1vw;
     width: 6vw;
     font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
-    color: #FF434D;
+    color: #F68404;
 }
 
 .maxL{
     position: absolute;
-    bottom: 0;
-    left: 0.7vw;
+    top: 14.5vh;
+    left: 3vw;
     width: 6vw;
     font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
     color: #00BD8C;
 }
+.maxP{
+    position: absolute;
+    top: 14.5vh;
+    left: 15.2vw;
+    width: 6vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #FF434D;
+}
+.balance{
+    position: absolute;
+    top: 14.5vh;
+    left: 24.8vw;
+    width: 10vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #7F7FE0;
+}
 
+.Pp{
+    position: absolute;
+    top: 24.2vh;
+    left: 15.2vw;
+    width: 6vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #FF434D;
+}
+.Ll{
+    position: absolute;
+    top: 24.2vh;
+    left: 3vw;
+    width: 6vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #00BD8C;
+}
+.fwd{
+    position: absolute;
+    top: 24.2vh;
+    left: 24.8vw;
+    width: 10vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #7F7FE0;
+}
+
+.maxPp{
+    position: absolute;
+    top: 34vh;
+    left: 15.2vw;
+    width: 6vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #FF434D;
+}
+.maxLl{
+    position: absolute;
+    top: 34vh;
+    left: 3vw;
+    width: 6vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #00BD8C;
+}
 .target-strike{
     position: absolute;
-    top: 0;
-    left: 21.1vw;
+    top: 34vh;
+    left: 27vw;
     width: 6vw;
     font-size: 1.3vw;
     font-weight: bold;
     vertical-align: middle;
-    color: rgb(0, 119, 255);
+    color: #7F7FE0;
 }
 
-.pasu{
-    position: absolute;
-    top: 0;
-    left: 31.4vw;
-    width: 6vw;
-    font-size: 1.3vw;
-    font-weight: bold;
-    vertical-align: middle;
-    color: rgb(255, 174, 0);
-}
-
-/*.GPS div[ldsign='菜單定位']{
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 5.7vh;
-    菜單下的線 border-bottom: 0.7vh solid red;
-}*/
-/*.GPS div[ldsign='t字帳定位']{
-    bottom: 0;
-    left: 0;
-    width: 19.7vw;
-    height: 93.3vh;
-}*/
-/*.GPS div[ldsign='圖表定位']{
-    top: 6.5vh;
-    left: 20.7vw;
-    width: 39.5vw;
-    height: 50.4vh;
-}*/
-/*
-.GPS div[ldsign='九宮格定位']{
-    top: 12.2vh;
-    right: 3.7vw;
-    width: 35.8vw;
-    height: 53.8vh;
-}
-*/
-/*.GPS div[ldsign='機器人訂單定位']{
-    bottom: 0;
-    right: 3.7vw;
-    width: 35.8vw;
-    height: 33.3vh;
-}*/
-/*.GPS div[ldsign='明細定位']{
-    bottom: 0;
-    left: 20.7vw;
-    width: 39.5vw;
-    height: 25vh;
-}*/
-/*.GPS div[ldsign='落點定位']{
-    bottom: 25.5vh;
-    left: 20.7vw;
-    width: 39.5vw;
-    height: 16.9vh;
-}*/
-/*.GPS div[ldsign='時間定位']{
-    top: 6.5vh;
-    right: 0;
-    width: 39.5vw;
-    height: 5.1vh;
-}*/

@@ -6,7 +6,8 @@
     width: 100vw;
     height: 5.8vh;
     z-index: 10;
-    border-bottom: 0.7vh solid rgb(238, 238, 238);
+    background-color: #1C1D22;
+    border-bottom: 0.7vh solid #1C1D22;
 }
 .menu-div button{
     position: absolute;
@@ -15,7 +16,8 @@
     font-size: 1.1vw;
     font-weight: bold;
     border: none;
-    background-color: white;
+    color:white;
+    background-color: #1C1D22;
 }
 .menu-div button[btn='交易']{
     left: 1vw;
@@ -53,10 +55,10 @@
     position: absolute;
     bottom: 0;
     right: 3.7vw;
-    width: 35.8vw;
+    width: 40vw;
     height: 33.4vh;
-    border-left: 0.2vw solid rgb(238, 238, 238);
-    border-top: 0.4vh solid rgb(238, 238, 238);
+    border-left:  none;
+    border-top: 0.4vh solid #20222d;
 }
 .ai-bill-title{
     position: relative;
@@ -71,119 +73,91 @@
 /*中間表格顯示位*/
 .eight-detail-div{
     position: absolute;
-    bottom: 25.2vh;
+    bottom: 0;
     left: 20.7vw;
-    width: 39.6vw;
-    height: 16.9vh;
-    border-top: 0.4vh solid rgb(238, 238, 238);
-    border-bottom: 0.4vh solid rgb(238, 238, 238);
+    width: 38vw;
+    height: 37vh;
+    border-right: 0.2vw solid #1C1D22;
+}
+
+.eight-detail-div div[ed='1']{
+    position: relative;
+    width: 100%;
+    height: 25%;
+    border-bottom: 0.4vh solid #1C1D22;
+}
+
+.eight-detail-div div[ed='2']{
+    position: relative;
+    width: 100%;
+    height: 25%;
+    border-bottom: 0.4vh solid #1C1D22;
+}
+
+.eight-detail-div div[ed='3']{
+    position: relative;
+    width: 100%;
+    height: 25%;
+    border-bottom: 0.4vh solid #1C1D22;
+}
+
+.eight-detail-div div[ed='4']{
+    position: relative;
+    width: 100%;
+    height: 25%;
 }
 
 .eight-detail-div font{
-    position: absolute;
+    position: relative;
     font-size: 1.1vw;
     font-weight: bold;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
-.eight-detail-div font[ed='op-now']{
+.eight-detail-div div[ed='1'] font[ed='op-now']{
     top: 0;
-    left: 2.8vw;    
+    left: 25%;    
 }
-.eight-detail-div font[ed='op-ftr']{
+.eight-detail-div div[ed='1'] font[ed='op-ftr']{
     top: 0;
-    left: 11.5vw; 
+    left: 50%; 
 }
-.eight-detail-div font[ed='op-fall']{
+
+.eight-detail-div div[ed='2'] font[ed='op-ml']{
     top: 0;
-    right: 12vw;
+    left: 10%; ; 
 }
-.eight-detail-div font[ed='op-ptg']{
+.eight-detail-div div[ed='2'] font[ed='op-mp']{
     top: 0;
-    right: 2.8vw;
+    left: 30%;; 
 }
-.eight-detail-div font[ed='op-ml']{
-    top: 9vh;
-    left: 2.8vw; ; 
-}
-.eight-detail-div font[ed='op-mp']{
-    top: 9vh;
-    left: 11.9vw;; 
-}
-.eight-detail-div font[ed='op-eq']{
-    top: 9vh;
-    right: 11vw;
-}
-.eight-detail-div font[ed='op-fwd']{
-    top: 9vh;
-    right: 2.2vw;
+.eight-detail-div div[ed='2'] font[ed='op-eq']{
+    top: 0;
+    left: 47%;
 }
 
-
-/*九宮格按鈕*/
-.ai-nine-option{
-    position: absolute;
-    z-index: 20;
-    top: 12.2vh;
-    right: 3.7vw;
-    width: 35.8vw;
-    height: 54vh;
-    border-left: 0.2vw solid rgb(238, 238, 238);
+.eight-detail-div div[ed='3'] font[ed='op-fwd']{
+    top: 0;
+    left: 50%;
 }
-.ai-nine-option button{
-    position: absolute;
-    width: 10.5vw;
-    height: 12vh;
-    border-radius: 5px;
-    border: none;
-    background-color: lightgray;
+.eight-detail-div div[ed='3'] font[ed='op-lp']{
+    top: 0;
+    left: 10%;
+}
+.eight-detail-div div[ed='3'] font[ed='op-pp']{
+    top: 0;
+    left: 30%;
 }
 
-.ai-nine-option button[ai-btn='策略推薦']{
-    top: 0.8vh; 
-    right: 2vw;
-    width: 31.9vw;
-    height: 4.5vh;
-    font-size: 1.2vw;
-    color: white;
-    background-color: rgb(0, 81, 255);
-    border: none;
+.eight-detail-div div[ed='4'] font[ed='op-fall']{
+    top: 0;
+    left: 35%;
 }
-
-.ai-nine-option button[ai-btn='1']{
-    top: 11vh;
-    right: 24.3vw;
-    
+.eight-detail-div div[ed='4'] font[ed='op-mlp']{
+    top: 0;
+    left: 8%;
 }
-.ai-nine-option button[ai-btn='2']{
-    top: 11vh;
-    right: 12.65vw;
-}
-.ai-nine-option button[ai-btn='3']{
-    top: 11vh;
-    right: 1vw;
-}
-.ai-nine-option button[ai-btn='4']{
-    top: 25vh;
-    right: 24.3vw;
-}
-.ai-nine-option button[ai-btn='5']{
-    top: 25vh;
-    right: 12.65vw;
-}
-.ai-nine-option button[ai-btn='6']{
-    top: 25vh;
-    right: 1vw;
-}
-.ai-nine-option button[ai-btn='7']{
-    top: 39vh;
-    right: 24.3vw;
-}
-.ai-nine-option button[ai-btn='8']{
-    top: 39vh;
-    right: 12.65vw;
-}
-.ai-nine-option button[ai-btn='9']{
-    top: 39vh;
-    right: 1vw;
+.eight-detail-div div[ed='4'] font[ed='op-mpp']{
+    top: 0;
+    left: 21%;
 }

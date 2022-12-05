@@ -2,7 +2,8 @@
 loop = 0;//迴圈次數
 per_min_data = 271;//根據機率圖表一天組數自行更改
 per_min_strike = [];
-allday_data = [];
+allday_data = [];//一周的預測機率
+allday_strike_data = [];//一周的預測履約價
 
 
 
@@ -14,6 +15,7 @@ hstrike = 0;//每分鐘最高履約價
 hpercent = 0;//每分鐘最高機率
 var hstrike_target = document.getElementById("target-strike-id");
 var pasu_target = document.getElementById("pasu-id");
+var balance_target = document.getElementById("balance-id");
 
 //按鈕變色變數
 sc_style = null;
@@ -42,7 +44,7 @@ const data = {
     label: 'Weekly Sales',
     data: tem,
     backgroundColor: [
-      'rgba(152,217,242, 0.6)',
+      'rgba(134,165,176, 0.6)',
     ],
     fill:true,
     tension:0.4,
@@ -144,7 +146,7 @@ const config = {
       x: {
         beginAtZero: true,
         grid:{
-          color:'black'
+          color:'#7A8196'
         },
         ticks:{
           callback: function(val, index) {//讓x軸只顯示整數(四捨五入過)
@@ -155,8 +157,8 @@ const config = {
           stepsize: 1,
           autoSkip: true,
           maxTicksLimit: 10,
-          color:'black',
-          fontcolor:'black'
+          color:'#7A8196',
+          fontcolor:'#7A8196'
         }
       },
       pl_x: {
@@ -165,30 +167,33 @@ const config = {
         beginAtZero: true,
         labels: pl_x_label,
         grid:{
-          color:'black'
+          color:'#7A8196'
         },
         ticks:{
           display: true,
           stepsize: 1,
           autoSkip: true,
           maxTicksLimit: 10,
-          color:'black',
-          fontcolor:'black'
+          color:'#7A8196',
+          fontcolor:'#7A8196'
         }
       },
       y: {
         position:'right',
         beginAtZero: true,
         grid:{
-          color:'black'
+          color:'#7A8196'
         },
         ticks:{
           display: true,
           stepsize: 10,
           autoSkip: true,
           maxTicksLimit: 10,
-          color:'black',
-          fontcolor:'black'
+          color:'#7A8196',
+          fontcolor:'#7A8196',
+          callback:function(value, index, values){
+            return `${value}%`;
+          }
         }
       },
       pl_y: {
@@ -204,8 +209,8 @@ const config = {
           display: true,
           autoSkip: true,
           maxTicksLimit: 10,
-          color:'black',
-          fontcolor:'black'
+          color:'#7A8196',
+          fontcolor:'#7A8196'
         }
       }
     },
@@ -358,7 +363,7 @@ function load_degree_1min(){
         var data_lengh = Object.keys(data).length
         per_min_strike.length = 0
         for(i=0;i<data_lengh;i++){
-          strike.push(Math.round((1+data[i]["漲跌幅"])*dapan_strike));//圖表x軸
+          allday_strike_data.push(Math.round((1+data[i]["漲跌幅"])*dapan_strike));//圖表x軸
         }
         var tem_per_min_data = per_min_data
         for(z=0;z<5;z++){
@@ -380,12 +385,25 @@ function load_degree_1min(){
 }
 
 function chartUpdate_perMin(x_data){//每分鐘偵測並更換圖表
-  myChart.data.datasets[0].data = x_data;
+  var tem_p_array = [];
+  for(i=0;i<xAxis.length;i++){
+    var yesOrNot = 0;//是否有兩個履約價有對上 1=有 0=沒
+    for(j=0;j<allday_strike_data.length;j++){
+      if(Number(xAxis[i]) == Number(allday_strike_data[j])){
+        tem_p_array.push(x_data[j])
+        yesOrNot = 1;
+      }
+    }
+    if(yesOrNot == 0){
+      tem_p_array.push(0)
+    }
+  }
+  myChart.data.datasets[0].data = tem_p_array;
   myChart.update
 
   hstrike = 0;
   hpercent = 0;
-  //console.log(x_data.length)
+  
   for(i=0;i<x_data.length;i++){
     if(x_data[i] > hpercent){
       hpercent = x_data[i]
@@ -393,12 +411,10 @@ function chartUpdate_perMin(x_data){//每分鐘偵測並更換圖表
     }
     
   }
-  hpercent = Math.round(hpercent*1000)/1000
   hstrike_target.innerHTML = strike[hstrike]
-  pasu_target.innerHTML = hpercent.toString()+"%";
 }
 
-function most_highAndLow_strike(){//找出最大及最小履約價
+function most_highAndLow_strike(){//找出最大及最小履約價並更新第二x軸
   var tem_max = strike[0];
   var tem_min = strike[0];
   for(i=0;i<strike.length;i++){
@@ -425,26 +441,52 @@ function caculate(ary){
   for(j=0;j<ary.length;j++){
     var tem = 0;
     for(i=0;i<caculate_pl_array.length;i++){
-      tem += caculate_pl_array[i][j]
+      tem += caculate_pl_array[i][j];
     }
-    pl_array.push(Math.round(tem*100)/100)
+    pl_array.push(Math.round(tem*100)/100);
   }
-
   myChart.data[1] = pl_array;
-  myChart.update
+  myChart.update;
 
-  var pmax = pl_array[0]
-  var lmax = pl_array[0]
+  //最大獲利最大損失
+  var pmax = pl_array[0];
+  var lmax = pl_array[0];
   for(i=0;i<pl_array.length;i++){
     if(pmax<pl_array[i]){
-      pmax = pl_array[i]
+      pmax = pl_array[i];
     }
     if(lmax>pl_array[i]){
-      lmax = pl_array[i]
+      lmax = pl_array[i];
     }
   }
-  maxP_target.innerHTML = pmax
-  maxL_target.innerHTML = lmax
+  maxP_target.innerHTML = pmax;
+  maxL_target.innerHTML = lmax;
+
+  //損益兩平
+  var tem_balance = 1;
+  var tem_secBalance = 1;
+  var tem_z = null;
+  var tem_r = null;
+  for(z=0;z<pl_array.length;z++){
+    var tem = Math.abs(Number(pl_array[z]))
+    if(tem < tem_balance){
+      tem_balance = tem;
+      tem_z = z;
+    }
+  }
+  for(r=(tem_z+2);r<pl_array.length;r++){//找是否有第二個損益兩平點
+    console.log(r)
+    var tem2 = Math.abs(Number(pl_array[r]))
+    if(tem2 < tem_secBalance){
+      tem_secBalance = tem2;
+      tem_r = r;
+    }
+  }
+  if(tem_secBalance !== 1){
+    balance_target.innerHTML = pl_x_label[tem_z] +' / '+ pl_x_label[tem_r]
+  }else{
+    balance_target.innerHTML = pl_x_label[tem_z]
+  }
 }
 
 function recaculate(ary){
@@ -452,8 +494,9 @@ function recaculate(ary){
     pl_array.length = 0;
     myChart.data[1] = pl_array;
     myChart.update
-    maxP_target.innerHTML = ''
-    maxL_target.innerHTML = ''
+    maxP_target.innerHTML = '--'
+    maxL_target.innerHTML = '--'
+    balance_target.innerHTML = '--'
   }else{
     pl_array.length = 0;
     for(j=0;j<ary;j++){
@@ -479,6 +522,32 @@ function recaculate(ary){
     }
     maxP_target.innerHTML = pmax
     maxL_target.innerHTML = lmax
+
+    //損益兩平
+    var tem_balance = 1;
+    var tem_secBalance = 1;
+    var tem_z = null;
+    var tem_r = null;
+    for(z=0;z<pl_array.length;z++){
+      var tem = Math.abs(Number(pl_array[z]))
+      if(tem < tem_balance){
+        tem_balance = tem;
+        tem_z = z;
+      }
+    }
+    for(r=(tem_z+2);r<pl_array.length;r++){//找是否有第二個損益兩平點
+      console.log(r)
+      var tem2 = Math.abs(Number(pl_array[r]))
+      if(tem2 < tem_secBalance){
+        tem_secBalance = tem2;
+        tem_r = r;
+      }
+    }
+    if(tem_secBalance !== 1){
+      balance_target.innerHTML = pl_x_label[tem_z] +' / '+ pl_x_label[tem_r]
+    }else{
+      balance_target.innerHTML = pl_x_label[tem_z]
+    }
   }
 }
 
@@ -486,7 +555,7 @@ function buyCall(botton_id,number){
   if(bc_style != null){
     var restyle = document.getElementById("bt_call_buy_price_" + bc_style)
     restyle.style.backgroundColor = 'white';
-    restyle.style.color = 'gray'
+    restyle.style.color = '#E76764'
   }
   botton_id.style.backgroundColor = 'gray';
   botton_id.style.color = 'white'
@@ -509,7 +578,7 @@ function sellCall(botton_id,number){
   if(sc_style != null){
     var restyle = document.getElementById("bt_call_sell_price_" + sc_style)
     restyle.style.backgroundColor = 'white';
-    restyle.style.color = 'gray'
+    restyle.style.color = '#46B0A6'
   }
   botton_id.style.backgroundColor = 'gray';
   botton_id.style.color = 'white'

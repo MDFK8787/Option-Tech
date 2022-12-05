@@ -15,7 +15,7 @@
 
     
 </head>
-<body onload="ontime_tbar();timer();realtime_dapan()">
+<body onload="realtime_dapan();timer();">
     <div class="menu-div">
         <button btn='交易'>交易</button>
         <button btn='回測'>回測GO</button>
@@ -23,65 +23,66 @@
         <button btn='語言'>語言</button>
         <button btn='登入'>登入</button>
         <button btn='註冊'>註冊</button>
-        <img src="image/OP.jpg">
+        <img src="image/picwish.png">
     </div>
     <div class="eight-detail-div">
-        <font ed="op-now">台指現貨</font>
-        <font ed="op-ftr">台指期近1</font>
-        <font ed="op-fall">機率落點</font>
-        <font ed="op-ptg">概率</font>
-        <font ed="op-ml">最大損失</font>
-        <font ed="op-mp">最大獲利</font>
-        <font ed="op-eq">損益兩平點</font>
-        <font ed="op-fwd">期望值</font>
+        <div ed="1">
+            <font ed="op-now">台指現貨</font>
+            <font ed="op-ftr">台指期近1</font>
+        </div>
+        <div ed="2">
+            <font ed="op-ml">最大損失</font>
+            <font ed="op-mp">最大獲利</font>
+            <font ed="op-eq">損益兩平點</font>
+        </div>
+        <div ed="3">
+            <font ed="op-lp">損失機率</font>
+            <font ed="op-pp">獲利機率</font>
+            <font ed="op-fwd">期望值</font>
+        </div>
+        <div ed="4">
+            <font ed="op-mlp">最大損失機率</font>
+            <font ed="op-mpp">最大獲利機率</font>
+            <font ed="op-fall">最大機率落點</font>
+        </div>
     </div>
     <div class="line-design">
         <div ldsign='rightside-menu-line'></div>
         <div ldsign='eight-detail-center-line'></div>
         <div ldsign='pl-sep-line'></div>
     </div>
-    <div class="GPS">
-        <div ldsign='菜單定位'></div>
-        <div ldsign='t字帳定位'></div>
-        <div ldsign='圖表定位'></div>
-        <div ldsign='九宮格定位'></div>
-        <div ldsign='機器人訂單定位'></div>
-        <div ldsign='明細定位'></div>
-        <div ldsign='時間定位'></div>
-        <div ldsign='落點定位'></div>
-    </div>
     <div class="ai-bill">
-        <font class="ai-bill-title">歷史 AI 訂單</font>
+        <font class="ai-bill-title"></font>
     </div>
     
     <div class="tbar-div">
         <table class="table_set">
             <thead>
                 <tr>
-                    <th data-th='c' colspan="2"bgcolor="FF434D">
+                    <th data-th='c' colspan="2"bgcolor="670d1b">
                         <font>CALL</font>
                     </th>
-                    <th data-th='s' colspan="1"bgcolor="#A6A6A6">
+                    <th data-th='s' colspan="1"bgcolor="20222d">
                         <font>Strike</font>
                     </th>
-                    <th data-th='p' colspan="2"bgcolor="00BD8C">
+                    <th data-th='p' colspan="2"bgcolor="460c41">
                         <font>PUT</font>
                     </th>
                 </tr>
                 <tr>
-                    <th data-th='ca' bgcolor="#686868">
+                    <th class="aaa" data-th='ca' bgcolor="#20222d">
                         <font>long</font>
                     </th>
-                    <th data-th='cb' bgcolor="#686868">
+                    <th data-th='cb' bgcolor="#20222d">
                         <font>short</font>
                     </th>
-                    <th data-th='st' id='strike' bgcolor="#686868">
+                    <th data-th='st' id='strike' bgcolor="#20222d">
                         <font>030</font>
                     </th>
-                    <th data-th='pa'bgcolor="#686868">
+                    <th data-th='pa'bgcolor="#20222d">
                         <font>short</font>
                     </th>
-                    <th data-th='pb'bgcolor="#686868">
+                    <th data-th='pb'bgcolor="#20222d">
                         <font>long</font>
                     </th>
                 </tr>
@@ -91,24 +92,19 @@
         </table>
     </div>
     <div class="dapan">
-        <font class="dapan-word" id="dapan-word-id">大盤</font>
-        <font class="maxP" id="maxP-id">(‾◡◝　)</font>
-        <font class="maxL" id="maxL-id">(つ´ω`)つ</font>
-        <font class="target-strike" id="target-strike-id">機率落點</font>
-        <font class="pasu" id="pasu-id">機率</font>
+        <font class="dapan-word" id="dapan-word-id">--</font>
+        <font class="dapan-close1" id="dapan-close1-id">--</font>
+        <font class="maxP" id="maxP-id">--</font>
+        <font class="maxL" id="maxL-id">--</font>
+        <font class="target-strike" id="target-strike-id">--</font>
+        <font class="maxPp" id="maxPp-id">--</font>
+        <font class="maxLl" id="maxLl-id">--</font>
+        <font class="balance" id="balance-id">--</font>
+        <font class="fwd" id="fwd-id">--</font>
+        <font class="Pp" id="Pp-id">--</font>
+        <font class="Ll" id="Ll-id">--</font>
     </div>
-    <div class="ai-nine-option">
-        <button ai-btn='策略推薦'>AI 策略推薦</button>
-        <button ai-btn='1'>1</button>
-        <button ai-btn='2'>2</button>
-        <button ai-btn='3'>3</button>
-        <button ai-btn='4'>4</button>
-        <button ai-btn='5'>5</button>
-        <button ai-btn='6'>6</button>
-        <button ai-btn='7'>7</button>
-        <button ai-btn='8'>8</button>
-        <button ai-btn='9'>9</button>
-    </div>
+    
     <div class="chart-div">
         <div class="chart">
             <canvas id="myChart"></canvas>

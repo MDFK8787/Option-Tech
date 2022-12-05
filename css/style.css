@@ -1,6 +1,7 @@
 html body{
     overflow: hidden;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: #20222d;
 }
 
 img{
@@ -13,8 +14,8 @@ img{
     bottom: 0;
     right: 79.2vw;
     width: 20.9vw;
-    height: 93.7vh;
-    background-color: rgb(238, 238, 238);
+    height: 93.5vh;
+    background-color: #20222d;
     border-collapse: collapse;
     z-index: 100;
     
@@ -22,6 +23,7 @@ img{
 .table_set thead ,tbody tr{
     display:table;
     table-layout:fixed; 
+    background-color: #20222d;
 }
 
 /*head*/
@@ -75,7 +77,6 @@ img{
 
 .table_set tbody tr{
     height: 4vh;
-    border-bottom: 0.001vw solid gray;
 }
 
 .btn_style{
@@ -86,16 +87,50 @@ img{
     font-size: 1vw;
     text-align: center;
     border-radius: 5px;
-    border: 2px solid gray;
-    color:gray;
-    background-color: white;
+    border: 1px solid rgb(70, 70, 70);
+    color:rgb(255, 255, 255);
+    background-color: #20222d;
 }
+
+.btn_style_inside{
+    margin: 5% 0;
+    padding: 1%;
+    width: 2.7vw;
+    height: 4vh;
+    font-size: 1vw;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid gray;
+    color:#E76764;
+    background-color: #20222d;
+}
+
+.btn_style_outside{
+    margin: 5% 0;
+    padding: 1%;
+    width: 2.7vw;
+    height: 4vh;
+    font-size: 1vw;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid gray;
+    color:#46B0A6;
+    background-color: #20222d;
+}
+
 
 .strike_style{
     width: 28%;
     font-size: 1.2vw;
-    background-color: #A6A6A6;
+    background-color: #20222d;
     color: white;
-    border-bottom: 0.001vw solid white;
 
+}
+
+
+.strike_style_equal{
+    width: 28%;
+    font-size: 1.2vw;
+    background-color: #20222d;
+    color: #F68404;
 }

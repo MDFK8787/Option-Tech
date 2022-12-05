@@ -6,7 +6,7 @@ function show_detail(botton_id){
     if (botton_id.id === "bt_call_buy_price_" + botton_id.name.toString()) {
         //將t字帳按的按鈕的所有資料暫存進陣列
         var rowdata = row + 1,
-            buysell = "short",
+            buysell = "long",
             CP = "Call",
             strike = document.getElementById('bt_code_' + botton_id.name.toString()).textContent,
             quote = botton_id.textContent,
@@ -15,7 +15,7 @@ function show_detail(botton_id){
 
     } else if (botton_id.id === "bt_call_sell_price_" + botton_id.name.toString()) {
         var rowdata = row + 1,
-            buysell = "long ",
+            buysell = "short ",
             CP = "Call",
             strike = document.getElementById("bt_code_" + botton_id.name.toString()).textContent,
             quote = botton_id.textContent,
@@ -23,7 +23,7 @@ function show_detail(botton_id){
 
     } else if (botton_id.id === "bt_put_sell_price_" + botton_id.name.toString()) {
         var rowdata = row + 1,
-            buysell = "long ",
+            buysell = "short ",
             CP = "Put",
             strike = document.getElementById("bt_code_" + botton_id.name.toString()).textContent,
             quote = botton_id.textContent,
@@ -31,7 +31,7 @@ function show_detail(botton_id){
 
     } else if (botton_id.id === "bt_put_buy_price_" + botton_id.name.toString()) {//item = data_put["code"][bt_id.name],
         var rowdata = row + 1,
-            buysell = "short",
+            buysell = "long",
             CP = "Put",
             strike = document.getElementById("bt_code_" + botton_id.name.toString()).textContent,
             quote = botton_id.textContent,
@@ -47,7 +47,6 @@ function show_detail(botton_id){
     array[row][5] = button_id;
 
     Newrow(array,row)
-    console.log(row)
     return row++;
 }
 

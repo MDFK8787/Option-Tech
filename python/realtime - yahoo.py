@@ -9,6 +9,13 @@ import time
 
 def loop():
   while True:
+    response2 = requests.get(
+        "https://tw.screener.finance.yahoo.net/future/aa01")
+    soup2 = BeautifulSoup(response2.text, "html.parser")
+    table2 = soup2.find_all(class_="dx up")
+    target2 = table2[0].text
+    #print(table2[0].text)
+
     response = requests.get(
         "https://tw.screener.finance.yahoo.net/future/aa03?opmr=optionfull&opcm=WTXO&opym=202008/")
     soup = BeautifulSoup(response.text, "html.parser")
@@ -22,6 +29,7 @@ def loop():
     tem2 = td2[1].text.replace(" ","")
     target = tem2[0:8]#target = 大盤
     array2.append(target)
+    array2.append(target2)
     df2 = pd.DataFrame(array2)
     df2.to_json(path_or_buf =r'C:\Users\User\Documents\GitHub\Option-Tech\json\Yahoo - Dapan.json',orient = 'records')
     print(df2)
@@ -58,7 +66,7 @@ def loop():
     df.to_json(path_or_buf =r'C:\Users\User\Documents\GitHub\Option-Tech\json\Yahoo - Realtime.json',orient = 'records')
     print(df)
     time.sleep(10)
-    
+  
 
 if __name__ == "__main__":
   loop()
