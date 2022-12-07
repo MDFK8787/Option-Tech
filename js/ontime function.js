@@ -108,7 +108,7 @@ function caculate_dapan(){//計算台指現價靠近的履約價
 
 function xAxis_create(){//產生圖表正負600點
     xAxis.length = 0;
-    for(i=Number(dapan_options)-600;i<Number(dapan_options)+601;i++){
+    for(i=Number(dapan_options)-600;i<=Number(dapan_options)+600;i++){
         xAxis.push(i)
     }
     strike = xAxis

@@ -26,6 +26,11 @@ bp_style = null;
 //損益變數
 var maxP_target = document.getElementById("maxP-id");
 var maxL_target = document.getElementById("maxL-id");
+var Pp_target = document.getElementById("Pp-id");
+var Ll_target = document.getElementById("Ll-id");
+var fwd_target = document.getElementById("fwd-id");
+var maxPp_target = document.getElementById("maxPp-id");
+var maxLl_target = document.getElementById("maxLl-id");
 caculate_pl_array = [];//所有損益存放
 sell_call = [];
 buy_call = [];
@@ -386,6 +391,11 @@ function load_degree_1min(){
 
 function chartUpdate_perMin(x_data){//每分鐘偵測並更換圖表
   var tem_p_array = [];
+  var dddd=null;
+  for(d=0;d<x_data.length;d++){
+    dddd +=x_data[d]
+  }
+  console.log('總機率: '+dddd)
   for(i=0;i<xAxis.length;i++){
     var yesOrNot = 0;//是否有兩個履約價有對上 1=有 0=沒
     for(j=0;j<allday_strike_data.length;j++){
@@ -451,12 +461,16 @@ function caculate(ary){
   //最大獲利最大損失
   var pmax = pl_array[0];
   var lmax = pl_array[0];
+  var first_pmax = null;
+  var first_lmax = null;
   for(i=0;i<pl_array.length;i++){
-    if(pmax<pl_array[i]){
+    if(pmax<=pl_array[i]){
       pmax = pl_array[i];
+      first_pmax = i;
     }
-    if(lmax>pl_array[i]){
+    if(lmax>=pl_array[i]){
       lmax = pl_array[i];
+      first_lmax = i;
     }
   }
   maxP_target.innerHTML = pmax;
@@ -468,14 +482,13 @@ function caculate(ary){
   var tem_z = null;
   var tem_r = null;
   for(z=0;z<pl_array.length;z++){
-    var tem = Math.abs(Number(pl_array[z]))
-    if(tem < tem_balance){
-      tem_balance = tem;
+    var tem1 = Math.abs(Number(pl_array[z]))
+    if(tem1 < tem_balance){
+      tem_balance = tem1;
       tem_z = z;
     }
   }
   for(r=(tem_z+2);r<pl_array.length;r++){//找是否有第二個損益兩平點
-    console.log(r)
     var tem2 = Math.abs(Number(pl_array[r]))
     if(tem2 < tem_secBalance){
       tem_secBalance = tem2;
@@ -484,9 +497,185 @@ function caculate(ary){
   }
   if(tem_secBalance !== 1){
     balance_target.innerHTML = pl_x_label[tem_z] +' / '+ pl_x_label[tem_r]
-  }else{
+    twoequ_fwd(first_pmax, first_lmax, tem_z, tem_r, pmax, lmax)
+  }else if(tem_balance !== 1){
     balance_target.innerHTML = pl_x_label[tem_z]
+    maxPAndMaxL_fwd(first_pmax, first_lmax, tem_z, pmax, lmax)
+  }else{
+    balance_target.innerHTML = 'none'
+    noeql_fwd(pmax, lmax)
   }
+}
+
+function noeql_fwd(pmax, lmax){//沒損益兩平點的最大損失&獲利機率
+  if(pl_array[(pl_array.length/2)] > 0){
+    var p_plus = null;
+    var l_plus = 0;
+    var fwd_plus = null;
+    var pmax_plus = 0;
+    var lmax_plus = 0;
+    for(i=0;i<strike.length;i++){
+      p_plus += myChart.data.datasets[0].data[i];
+      if(myChart.data.datasets[0].data[i] > 0){
+        fwd_plus += myChart.data.datasets[0].data[i]*pl_array[i]
+      }
+      if(pl_array[i] == pmax){
+        pmax_plus += myChart.data.datasets[0].data[i];
+      }
+    }
+  }else{
+    var p_plus = 0;
+    var l_plus = null;
+    var fwd_plus = null;
+    var pmax_plus = 0;
+    var lmax_plus = 0;
+    for(i=0;i<strike.length;i++){
+      l_plus += myChart.data.datasets[0].data[i];
+      if(myChart.data.datasets[0].data[i] > 0){
+        fwd_plus += myChart.data.datasets[0].data[i]*pl_array[i]
+      }
+      if(pl_array[i] == lmax){
+        lmax_plus += myChart.data.datasets[0].data[i];
+      }
+    }
+  }
+  Pp_target.innerHTML = p_plus + "%";
+  Ll_target.innerHTML = l_plus + "%";
+  fwd_target.innerHTML = fwd_plus/100;
+  maxPp_target.innerHTML = pmax_plus + "%";
+  maxLl_target.innerHTML = lmax_plus + "%";
+}
+
+function maxPAndMaxL_fwd(p_location, l_location, eql_location, pmax, lmax){//一個損益兩平點的最大損失&獲利機率
+  if(p_location > eql_location){
+    var p_plus = null;
+    var l_plus = null;
+    var fwd_plus = null;
+    var pmax_plus = 0;
+    var lmax_plus = 0;
+    for(i=0;i<eql_location;i++){
+      l_plus += myChart.data.datasets[0].data[i];
+      if(myChart.data.datasets[0].data[i] > 0){
+        fwd_plus += myChart.data.datasets[0].data[i]*pl_array[i];
+      }
+      if(pl_array[i] == lmax){//maxl
+        lmax_plus += myChart.data.datasets[0].data[i];
+      }
+    }
+    for(j=eql_location;j<strike.length;j++){
+      p_plus += myChart.data.datasets[0].data[j];
+      if(myChart.data.datasets[0].data[j] > 0){
+        fwd_plus += myChart.data.datasets[0].data[j]*pl_array[j];
+      }
+      if(pl_array[j] == pmax){
+        pmax_plus += myChart.data.datasets[0].data[j];
+      }
+    }
+  }else{
+    var p_plus = null;
+    var l_plus = null;
+    var fwd_plus = null;
+    var pmax_plus = 0;
+    var lmax_plus = 0;
+    for(i=0;i<eql_location;i++){
+      p_plus += myChart.data.datasets[0].data[i];
+      if(myChart.data.datasets[0].data[i] > 0){
+        fwd_plus += myChart.data.datasets[0].data[i]*pl_array[i];
+      }
+      if(pl_array[i] == pmax){
+        pmax_plus += myChart.data.datasets[0].data[i];
+      }
+    }
+    for(j=eql_location;j<strike.length;j++){
+      l_plus += myChart.data.datasets[0].data[j];
+      if(myChart.data.datasets[0].data[j] > 0){
+        fwd_plus += myChart.data.datasets[0].data[j]*pl_array[j];
+      }
+      if(pl_array[j] == lmax){//maxl
+        lmax_plus += myChart.data.datasets[0].data[j];
+      }
+    }
+  }
+  Pp_target.innerHTML = p_plus + "%";
+  Ll_target.innerHTML = l_plus + "%";
+  fwd_target.innerHTML = fwd_plus/100;
+  maxPp_target.innerHTML = pmax_plus + "%";
+  maxLl_target.innerHTML = lmax_plus + "%";
+}
+
+function twoequ_fwd(p_location, l_location, eql_location1, eql_location2, pmax, lmax){//兩個損益兩平點的最大損失&獲利機率
+  if(p_location > eql_location1 && p_location < eql_location2){
+    var p_plus = null;
+    var l_plus = null;
+    var fwd_plus = null;
+    var pmax_plus = 0;
+    var lmax_plus = 0;
+    for(i=0;i<eql_location1;i++){
+      l_plus += myChart.data.datasets[0].data[i];//Ll
+      if(myChart.data.datasets[0].data[i] > 0){//fwd
+        fwd_plus += myChart.data.datasets[0].data[i]*pl_array[i];
+      }
+      if(pl_array[i] == lmax){//maxl
+        lmax_plus += myChart.data.datasets[0].data[i];
+      }
+    }
+    for(j=eql_location1;j<eql_location2;j++){
+      p_plus += myChart.data.datasets[0].data[j];
+      if(myChart.data.datasets[0].data[j] > 0){
+        fwd_plus += myChart.data.datasets[0].data[j]*pl_array[j];
+      }
+      if(pl_array[j] == pmax){
+        pmax_plus += myChart.data.datasets[0].data[j];
+      }
+    }
+    for(z=eql_location2;z<strike.length;z++){
+      l_plus += myChart.data.datasets[0].data[z];
+      if(myChart.data.datasets[0].data[z] > 0){
+        fwd_plus += myChart.data.datasets[0].data[z]*pl_array[z];
+      }
+      if(pl_array[z] == lmax){//maxl
+        lmax_plus += myChart.data.datasets[0].data[z];
+      }
+    }
+  }else{
+    var p_plus = null;
+    var l_plus = null;
+    var fwd_plus = null;
+    var pmax_plus = 0;
+    var lmax_plus = 0;
+    for(i=0;i<eql_location1;i++){
+      p_plus += myChart.data.datasets[0].data[i];
+      if(myChart.data.datasets[0].data[i] > 0){
+        fwd_plus += myChart.data.datasets[0].data[i]*pl_array[i];
+      }
+      if(pl_array[i] == pmax){
+        pmax_plus += myChart.data.datasets[0].data[i];
+      }
+    }
+    for(j=eql_location1;j<eql_location2;j++){
+      l_plus += myChart.data.datasets[0].data[j];
+      if(myChart.data.datasets[0].data[j] > 0){
+        fwd_plus += myChart.data.datasets[0].data[j]*pl_array[j];
+      }
+      if(pl_array[j] == lmax){//maxl
+        lmax_plus += myChart.data.datasets[0].data[j];
+      }
+    }
+    for(z=eql_location2;z<strike.length;z++){
+      p_plus += myChart.data.datasets[0].data[z];
+      if(myChart.data.datasets[0].data[z] > 0){
+        fwd_plus += myChart.data.datasets[0].data[z]*pl_array[z];
+      }
+      if(pl_array[z] == pmax){
+        pmax_plus += myChart.data.datasets[0].data[z];
+      }
+    }
+  }
+  Pp_target.innerHTML = p_plus + "%";
+  Ll_target.innerHTML = l_plus + "%";
+  fwd_target.innerHTML = fwd_plus/100;
+  maxPp_target.innerHTML = pmax_plus + "%";
+  maxLl_target.innerHTML = lmax_plus + "%";
 }
 
 function recaculate(ary){
@@ -494,9 +683,14 @@ function recaculate(ary){
     pl_array.length = 0;
     myChart.data[1] = pl_array;
     myChart.update
-    maxP_target.innerHTML = '--'
+    maxP_target.innerHTML = '--';
     maxL_target.innerHTML = '--'
     balance_target.innerHTML = '--'
+    Pp_target.innerHTML = '--';
+    Ll_target.innerHTML = '--';
+    fwd_target.innerHTML = '--';
+    maxPp_target.innerHTML = '--';
+    maxLl_target.innerHTML = '--';
   }else{
     pl_array.length = 0;
     for(j=0;j<ary;j++){
@@ -520,8 +714,8 @@ function recaculate(ary){
         lmax = pl_array[i]
       }
     }
-    maxP_target.innerHTML = pmax
-    maxL_target.innerHTML = lmax
+    maxP_target.innerHTML = pmax;
+    maxL_target.innerHTML = lmax;
 
     //損益兩平
     var tem_balance = 1;
@@ -536,17 +730,22 @@ function recaculate(ary){
       }
     }
     for(r=(tem_z+2);r<pl_array.length;r++){//找是否有第二個損益兩平點
-      console.log(r)
       var tem2 = Math.abs(Number(pl_array[r]))
       if(tem2 < tem_secBalance){
         tem_secBalance = tem2;
         tem_r = r;
       }
     }
+    console.log(tem_balance)
     if(tem_secBalance !== 1){
       balance_target.innerHTML = pl_x_label[tem_z] +' / '+ pl_x_label[tem_r]
-    }else{
+      twoequ_fwd(first_pmax, first_lmax, tem_z, tem_r)
+    }else if(tem_balance !== 1){
       balance_target.innerHTML = pl_x_label[tem_z]
+      maxPAndMaxL_fwd(first_pmax, first_lmax, tem_z)
+    }else{
+      balance_target.innerHTML = 'none'
+      noeql_fwd()
     }
   }
 }
@@ -554,11 +753,9 @@ function recaculate(ary){
 function buyCall(botton_id,number){
   if(bc_style != null){
     var restyle = document.getElementById("bt_call_buy_price_" + bc_style)
-    restyle.style.backgroundColor = 'white';
-    restyle.style.color = '#E76764'
+    restyle.style.backgroundColor = '#20222d';
   }
-  botton_id.style.backgroundColor = 'gray';
-  botton_id.style.color = 'white'
+  botton_id.style.backgroundColor = 'white';
   bc_style = number;
 
   var buyCall_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
@@ -577,11 +774,9 @@ function buyCall(botton_id,number){
 function sellCall(botton_id,number){
   if(sc_style != null){
     var restyle = document.getElementById("bt_call_sell_price_" + sc_style)
-    restyle.style.backgroundColor = 'white';
-    restyle.style.color = '#46B0A6'
+    restyle.style.backgroundColor = '#20222d';
   }
-  botton_id.style.backgroundColor = 'gray';
-  botton_id.style.color = 'white'
+  botton_id.style.backgroundColor = 'white';
   sc_style = number;
 
   var sellCall_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
@@ -600,11 +795,9 @@ function sellCall(botton_id,number){
 function buyPut(botton_id,number){
   if(bp_style != null){
     var restyle = document.getElementById("bt_put_buy_price_" + bp_style)
-    restyle.style.backgroundColor = 'white';
-    restyle.style.color = 'gray'
+    restyle.style.backgroundColor = '#20222d';
   }
-  botton_id.style.backgroundColor = 'gray';
-  botton_id.style.color = 'white'
+  botton_id.style.backgroundColor = 'white';
   bp_style = number;
 
   var buyPut_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
@@ -623,11 +816,9 @@ function buyPut(botton_id,number){
 function sellPut(botton_id,number){
   if(sp_style != null){
     var restyle = document.getElementById("bt_put_sell_price_" + sp_style)
-    restyle.style.backgroundColor = 'white';
-    restyle.style.color = 'gray'
+    restyle.style.backgroundColor = '#20222d';
   }
-  botton_id.style.backgroundColor = 'gray';
-  botton_id.style.color = 'white'
+  botton_id.style.backgroundColor = 'white';
   sp_style = number;
 
   var sellPut_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
