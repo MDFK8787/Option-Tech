@@ -391,16 +391,18 @@ function load_degree_1min(){
 
 function chartUpdate_perMin(x_data){//每分鐘偵測並更換圖表
   var tem_p_array = [];
-  var dddd=null;
+  var total_sample=null;
   for(d=0;d<x_data.length;d++){
-    dddd +=x_data[d]
+    total_sample +=x_data[d]
   }
-  console.log('總機率: '+dddd)
+  console.log('總樣本: '+total_sample)
+  var dddddd=null;
   for(i=0;i<xAxis.length;i++){
     var yesOrNot = 0;//是否有兩個履約價有對上 1=有 0=沒
     for(j=0;j<allday_strike_data.length;j++){
       if(Number(xAxis[i]) == Number(allday_strike_data[j])){
-        tem_p_array.push(x_data[j])
+        tem_p_array.push(x_data[j]/total_sample*100)
+        dddddd+=x_data[j]
         yesOrNot = 1;
       }
     }
@@ -408,6 +410,12 @@ function chartUpdate_perMin(x_data){//每分鐘偵測並更換圖表
       tem_p_array.push(0)
     }
   }
+  var pp = null;
+  for(p=0;p<tem_p_array.length;p++){
+    pp += tem_p_array[p]
+  }
+  console.log('總樣本2: '+dddddd)
+  console.log('總機率: '+pp)
   myChart.data.datasets[0].data = tem_p_array;
   myChart.update
 
@@ -539,11 +547,11 @@ function noeql_fwd(pmax, lmax){//沒損益兩平點的最大損失&獲利機率
       }
     }
   }
-  Pp_target.innerHTML = p_plus + "%";
-  Ll_target.innerHTML = l_plus + "%";
-  fwd_target.innerHTML = fwd_plus/100;
-  maxPp_target.innerHTML = pmax_plus + "%";
-  maxLl_target.innerHTML = lmax_plus + "%";
+  Pp_target.innerHTML = (Math.round(p_plus*100)/100) + "%";
+  Ll_target.innerHTML = (Math.round(l_plus*100)/100) + "%";
+  fwd_target.innerHTML = (Math.round(fwd_plus*100)/100)/100;
+  maxPp_target.innerHTML = (Math.round(pmax_plus*100)/100) + "%";
+  maxLl_target.innerHTML = (Math.round(lmax_plus*100)/100) + "%";
 }
 
 function maxPAndMaxL_fwd(p_location, l_location, eql_location, pmax, lmax){//一個損益兩平點的最大損失&獲利機率
@@ -596,11 +604,11 @@ function maxPAndMaxL_fwd(p_location, l_location, eql_location, pmax, lmax){//一
       }
     }
   }
-  Pp_target.innerHTML = p_plus + "%";
-  Ll_target.innerHTML = l_plus + "%";
-  fwd_target.innerHTML = fwd_plus/100;
-  maxPp_target.innerHTML = pmax_plus + "%";
-  maxLl_target.innerHTML = lmax_plus + "%";
+  Pp_target.innerHTML = (Math.round(p_plus*100)/100) + "%";
+  Ll_target.innerHTML = (Math.round(l_plus*100)/100) + "%";
+  fwd_target.innerHTML = (Math.round(fwd_plus*100)/100)/100;
+  maxPp_target.innerHTML = (Math.round(pmax_plus*100)/100) + "%";
+  maxLl_target.innerHTML = (Math.round(lmax_plus*100)/100) + "%";
 }
 
 function twoequ_fwd(p_location, l_location, eql_location1, eql_location2, pmax, lmax){//兩個損益兩平點的最大損失&獲利機率
@@ -671,11 +679,11 @@ function twoequ_fwd(p_location, l_location, eql_location1, eql_location2, pmax, 
       }
     }
   }
-  Pp_target.innerHTML = p_plus + "%";
-  Ll_target.innerHTML = l_plus + "%";
-  fwd_target.innerHTML = fwd_plus/100;
-  maxPp_target.innerHTML = pmax_plus + "%";
-  maxLl_target.innerHTML = lmax_plus + "%";
+  Pp_target.innerHTML = (Math.round(p_plus*100)/100) + "%";
+  Ll_target.innerHTML = (Math.round(l_plus*100)/100) + "%";
+  fwd_target.innerHTML = (Math.round(fwd_plus*100)/100)/100;
+  maxPp_target.innerHTML = (Math.round(pmax_plus*100)/100) + "%";
+  maxLl_target.innerHTML = (Math.round(lmax_plus*100)/100) + "%";
 }
 
 function recaculate(ary){
