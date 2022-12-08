@@ -66,8 +66,8 @@ const data = {
     ],
     fill:{
       target:'origin',
-      below:'rgba(0, 255, 0, 0.2)',
-      above:'rgba(255, 0, 0, 0.2)'
+      below:'rgba(70,176,166, 0.6)',
+      above:'rgba(231,103,100, 0.6)'
     },
     tension:0.4,
     pointRadius:0,

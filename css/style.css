@@ -15,16 +15,18 @@ img{
     right: 79.2vw;
     width: 20.9vw;
     height: 93.5vh;
-    background-color: #20222d;
+    background-color: #1C1D22;
     border-collapse: collapse;
     z-index: 100;
     
 }
+
 .table_set thead ,tbody tr{
     display:table;
     table-layout:fixed; 
     background-color: #20222d;
 }
+
 
 /*head*/
 .tbar-div thead{
@@ -47,6 +49,7 @@ img{
     font-size: 1.5vw;
     font-weight: lighter;
     text-align: center;
+    background-color: #1C1D22;
 }
 
 .table_set thead th[data-th="st"]{
@@ -54,12 +57,14 @@ img{
     height: 40%;
     color: white;
     font-weight: lighter;
+    background-color: #1C1D22;
 }
 
 .table_set thead th[data-th="ca"],.table_set thead th[data-th="cb"],.table_set thead th[data-th="pa"],.table_set thead th[data-th="pb"]{
     width: 17%;
     color: white;
     font-weight: lighter;
+    background-color: #1C1D22;
 }
 
 
