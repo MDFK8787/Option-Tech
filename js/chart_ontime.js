@@ -481,8 +481,8 @@ function caculate(ary){
       first_lmax = i;
     }
   }
-  maxP_target.innerHTML = pmax;
-  maxL_target.innerHTML = lmax;
+  maxP_target.innerHTML = '$'+(pmax*50);
+  maxL_target.innerHTML = '$'+(lmax*50);
 
   //損益兩平
   var tem_balance = 1;
@@ -547,9 +547,11 @@ function noeql_fwd(pmax, lmax){//沒損益兩平點的最大損失&獲利機率
       }
     }
   }
+
+  fwd_plus = (Math.round(fwd_plus*100)/100)/2//四捨五入+轉為錢(*50)
   Pp_target.innerHTML = (Math.round(p_plus*100)/100) + "%";
   Ll_target.innerHTML = (Math.round(l_plus*100)/100) + "%";
-  fwd_target.innerHTML = (Math.round(fwd_plus*100)/100)/100;
+  fwd_target.innerHTML = '$'+fwd_plus;
   maxPp_target.innerHTML = (Math.round(pmax_plus*100)/100) + "%";
   maxLl_target.innerHTML = (Math.round(lmax_plus*100)/100) + "%";
 }
@@ -604,9 +606,12 @@ function maxPAndMaxL_fwd(p_location, l_location, eql_location, pmax, lmax){//一
       }
     }
   }
+
+  fwd_plus = (Math.round(fwd_plus*100)/100)/2//四捨五入+轉為錢(*50)
+
   Pp_target.innerHTML = (Math.round(p_plus*100)/100) + "%";
   Ll_target.innerHTML = (Math.round(l_plus*100)/100) + "%";
-  fwd_target.innerHTML = (Math.round(fwd_plus*100)/100)/100;
+  fwd_target.innerHTML = '$'+fwd_plus;
   maxPp_target.innerHTML = (Math.round(pmax_plus*100)/100) + "%";
   maxLl_target.innerHTML = (Math.round(lmax_plus*100)/100) + "%";
 }
@@ -679,9 +684,10 @@ function twoequ_fwd(p_location, l_location, eql_location1, eql_location2, pmax, 
       }
     }
   }
+  fwd_plus = (Math.round(fwd_plus*100)/100)/2//四捨五入+轉為錢(*50)
   Pp_target.innerHTML = (Math.round(p_plus*100)/100) + "%";
   Ll_target.innerHTML = (Math.round(l_plus*100)/100) + "%";
-  fwd_target.innerHTML = (Math.round(fwd_plus*100)/100)/100;
+  fwd_target.innerHTML = '$'+fwd_plus;
   maxPp_target.innerHTML = (Math.round(pmax_plus*100)/100) + "%";
   maxLl_target.innerHTML = (Math.round(lmax_plus*100)/100) + "%";
 }
@@ -722,8 +728,8 @@ function recaculate(ary){
         lmax = pl_array[i]
       }
     }
-    maxP_target.innerHTML = pmax;
-    maxL_target.innerHTML = lmax;
+    maxP_target.innerHTML = '$'+(pmax*50);
+    maxL_target.innerHTML = '$'+(lmax*50);
 
     //損益兩平
     var tem_balance = 1;
