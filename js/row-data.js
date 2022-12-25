@@ -119,4 +119,3 @@ function delete_chart_pl(target){
         recaculate(ary);
     }
 }
-//嗨

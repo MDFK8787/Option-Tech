@@ -79,7 +79,7 @@ const data = {
   }]
 };
 
-//客製化圖表細節表
+//客製化圖表細節表(移除)
 const customtooltips = {
   id: 'customtooltips',
   afterDraw(chart , args , pluginOptions){
@@ -230,7 +230,7 @@ const config = {
       }
     },
   },
-  plugins: [customtooltips]
+  //plugins: [customtooltips]
 };
 
 // 宣告chart.js
@@ -422,9 +422,9 @@ function chartUpdate_perMin(x_data){//每分鐘偵測並更換圖表
   hstrike = 0;
   hpercent = 0;
   
-  for(i=0;i<x_data.length;i++){
-    if(x_data[i] > hpercent){
-      hpercent = x_data[i]
+  for(i=0;i<tem_p_array.length;i++){
+    if(tem_p_array[i] > hpercent){
+      hpercent = tem_p_array[i]
       hstrike = i
     }
     
@@ -765,12 +765,6 @@ function recaculate(ary){
 }
 
 function buyCall(botton_id,number){
-  if(bc_style != null){
-    var restyle = document.getElementById("bt_call_buy_price_" + bc_style)
-    restyle.style.backgroundColor = '#20222d';
-  }
-  botton_id.style.backgroundColor = 'white';
-  bc_style = number;
 
   var buyCall_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
   var price = Number(botton_id.textContent);
@@ -786,12 +780,6 @@ function buyCall(botton_id,number){
 }
 
 function sellCall(botton_id,number){
-  if(sc_style != null){
-    var restyle = document.getElementById("bt_call_sell_price_" + sc_style)
-    restyle.style.backgroundColor = '#20222d';
-  }
-  botton_id.style.backgroundColor = 'white';
-  sc_style = number;
 
   var sellCall_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
   var price = Number(botton_id.textContent);
@@ -807,12 +795,6 @@ function sellCall(botton_id,number){
 }
 
 function buyPut(botton_id,number){
-  if(bp_style != null){
-    var restyle = document.getElementById("bt_put_buy_price_" + bp_style)
-    restyle.style.backgroundColor = '#20222d';
-  }
-  botton_id.style.backgroundColor = 'white';
-  bp_style = number;
 
   var buyPut_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
   var price = Number(botton_id.textContent);
@@ -828,12 +810,6 @@ function buyPut(botton_id,number){
 }
 
 function sellPut(botton_id,number){
-  if(sp_style != null){
-    var restyle = document.getElementById("bt_put_sell_price_" + sp_style)
-    restyle.style.backgroundColor = '#20222d';
-  }
-  botton_id.style.backgroundColor = 'white';
-  sp_style = number;
 
   var sellPut_strike = Number(document.getElementById('bt_code_' + botton_id.name.toString()).textContent);
   var price = Number(botton_id.textContent);
